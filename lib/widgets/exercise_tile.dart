@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 
-// Define your custom tile widget
 class ExerciseTile extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
 
-  ExerciseTile({required this.title, required this.onTap});
+  const ExerciseTile({super.key, required this.title, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        height: 70,
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -28,9 +28,9 @@ class ExerciseTile extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
             ),
-            const Icon(
+            Icon(
               CupertinoIcons.forward,
-              color: CupertinoColors.systemGrey6,
+              color: CupertinoTheme.of(context).primaryContrastingColor,
             ),
           ],
         ),

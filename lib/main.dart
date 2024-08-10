@@ -10,7 +10,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const CupertinoApp(
       theme: CupertinoThemeData(
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
         primaryColor: CupertinoColors.systemPink,
       ),
       home: RootPage(),

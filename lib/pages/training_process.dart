@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
-import '../widgets/add_exercise_surface.dart';
+import '../widgets/add_exercise_surface_bottom.dart';
+import '../widgets/add_exercise_surface_popup.dart';
 import '../widgets/exercise_tile.dart';
+
 import '../models/exercise.dart';
 
 class TrainingProcess extends StatefulWidget {
@@ -13,23 +14,7 @@ class TrainingProcess extends StatefulWidget {
 }
 
 class _TrainingProcessState extends State<TrainingProcess> {
-  List<Exercise> _exercises = [
-    // const Exercise(
-    //   name: "Bench Press",
-    //   sets: 3,
-    //   reps: 12,
-    // ),
-    // const Exercise(
-    //   name: "Deadlift",
-    //   sets: 5,
-    //   reps: 6,
-    // ),
-    // const Exercise(
-    //   name: "Squat",
-    //   sets: 3,
-    //   reps: 12,
-    // ),
-  ];
+  final List<Exercise> _exercises = [];
 
   @override
   Widget build(BuildContext context) {
@@ -63,20 +48,26 @@ class _TrainingProcessState extends State<TrainingProcess> {
               height: 50,
               alignment: Alignment.centerLeft,
               child: Text(
-                _exercises.isEmpty ? "No exercises" : "Your exercises",
-                style: CupertinoTheme.of(context)
-                    .textTheme
-                    .navLargeTitleTextStyle
-                    .copyWith(
-                        // fontSize: 14,
-                        ),
-              ),
+                  _exercises.isEmpty ? "No exercises" : "Your exercises",
+                  style: CupertinoTheme.of(context)
+                      .textTheme
+                      .navLargeTitleTextStyle),
             ),
             SizedBox(
               width: double.infinity,
               child: Container(
-                color: CupertinoTheme.of(context).primaryContrastingColor,
-                height: 400,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      CupertinoTheme.of(context).primaryContrastingColor,
+                      CupertinoColors.lightBackgroundGray,
+                    ],
+                    stops: [0.0, 1.0],
+                  ),
+                ),
+                height: 550,
                 child: CupertinoScrollbar(
                   child: SingleChildScrollView(
                     child: Column(
@@ -86,7 +77,7 @@ class _TrainingProcessState extends State<TrainingProcess> {
                           return ExerciseTile(
                             title: _exercises[index].name,
                             onTap: () {
-                              print("${_exercises[index].name}");
+                              print(_exercises[index].name);
                             },
                           );
                         },
@@ -96,18 +87,8 @@ class _TrainingProcessState extends State<TrainingProcess> {
                 ),
               ),
             ),
-            Flexible(
-              child: Center(
-                child: CupertinoButton.filled(
-                  child: const Text('Add Exercise'),
-                  onPressed: () => {
-                    showCupertinoModalPopup(
-                      context: context,
-                      builder: (BuildContext context) => const AddExercise(),
-                    ),
-                  },
-                ),
-              ),
+            AddExerciseSurfaceBottom(
+              popUpSurface: AddExercisePopup(),
             ),
           ],
         ),
