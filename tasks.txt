@@ -1,3 +1,7 @@
-1. 2 pages scaffols
+1. 2 pages scaffols + 
 
-2. 
+2. Popping page. Buttons -> Icons +
+
+3. Add container for exercises.
+
+

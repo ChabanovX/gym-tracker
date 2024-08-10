@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-import 'ui/stats_page.dart';
-import 'ui/train_page.dart';
+import 'pages/stats_page.dart';
+import 'pages/start_train_page.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -9,6 +9,10 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const CupertinoApp(
+      theme: CupertinoThemeData(
+        brightness: Brightness.dark,
+        primaryColor: CupertinoColors.systemPink,
+      ),
       home: RootPage(),
     );
   }
@@ -23,11 +27,11 @@ class RootPage extends StatelessWidget {
       tabBar: CupertinoTabBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.add),
-            label: "Train",
+            icon: Icon(CupertinoIcons.flame),
+            label: "Train!",
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.eye),
+            icon: Icon(CupertinoIcons.calendar_today),
             label: "Statistics",
           ),
         ],
