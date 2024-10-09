@@ -39,7 +39,7 @@ class RootPage extends StatelessWidget {
       tabBuilder: (BuildContext context, int index) {
         return <Widget>[
           TrainPage(),
-          StatsPage(),
+          StatisticsPage(),
         ][index];
       },
     );

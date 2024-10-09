@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import 'stopwatch.dart';
+
 class AddExerciseSurfaceBottom extends StatelessWidget {
   final Widget popUpSurface;
   const AddExerciseSurfaceBottom({super.key, required this.popUpSurface});
@@ -14,12 +16,7 @@ class AddExerciseSurfaceBottom extends StatelessWidget {
               children: [
                 Expanded(
                   child: Center(
-                    child: Text(
-                      "00:00:00",
-                      style: CupertinoTheme.of(context)
-                          .textTheme
-                          .dateTimePickerTextStyle,
-                    ),
+                    child: StopwatchPage(),
                   ),
                 ), // Bottom-left area
                 Expanded(

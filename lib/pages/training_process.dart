@@ -16,12 +16,19 @@ class TrainingProcess extends StatefulWidget {
 class _TrainingProcessState extends State<TrainingProcess> {
   final List<Exercise> _exercises = [];
 
+  // Function to add exercise to the list
+  void _addExercise(Exercise exercise) {
+    setState(() {
+      _exercises.add(exercise);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         previousPageTitle: "Back",
-        middle: const Text('Bitch Ass Nigga'),
+        middle: const Text('Workout Plan'),
         trailing: CupertinoButton(
           padding: const EdgeInsets.all(10),
           child: const Icon(
@@ -48,10 +55,9 @@ class _TrainingProcessState extends State<TrainingProcess> {
               height: 50,
               alignment: Alignment.centerLeft,
               child: Text(
-                  _exercises.isEmpty ? "No exercises" : "Your exercises",
-                  style: CupertinoTheme.of(context)
-                      .textTheme
-                      .navLargeTitleTextStyle),
+                _exercises.isEmpty ? "No exercises" : "Your exercises",
+                style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
+              ),
             ),
             SizedBox(
               width: double.infinity,
@@ -64,7 +70,6 @@ class _TrainingProcessState extends State<TrainingProcess> {
                       CupertinoTheme.of(context).primaryContrastingColor,
                       CupertinoColors.lightBackgroundGray,
                     ],
-                    stops: [0.0, 1.0],
                   ),
                 ),
                 height: 550,
@@ -88,7 +93,9 @@ class _TrainingProcessState extends State<TrainingProcess> {
               ),
             ),
             AddExerciseSurfaceBottom(
-              popUpSurface: AddExercisePopup(),
+              popUpSurface: AddExercisePopup(
+                onExerciseSelected: _addExercise,  // Pass the callback function
+              ),
             ),
           ],
         ),
