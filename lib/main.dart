@@ -9,6 +9,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const CupertinoApp(
+      debugShowCheckedModeBanner: false,
       theme: CupertinoThemeData(
         brightness: Brightness.light,
         primaryColor: CupertinoColors.systemPink,
@@ -47,5 +48,7 @@ class RootPage extends StatelessWidget {
 }
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    MainApp(),
+  );
 }
