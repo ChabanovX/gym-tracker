@@ -8,38 +8,30 @@ class AddExerciseSurfaceBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: Column(
-        children: [
-          Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: Center(
-                    child: StopwatchPage(),
-                  ),
-                ), // Bottom-left area
-                Expanded(
-                  child: Center(
-                    child: CupertinoButton(
-                      child: const Icon(
-                        CupertinoIcons.add_circled,
-                        size: 64,
-                      ),
-                      onPressed: () {
-                        showCupertinoModalPopup(
-                          context: context,
-                          builder: (BuildContext context) => popUpSurface,
-                        );
-                      },
-                    ),
-                  ),
-                ), // Bottom-right area with button in the center
-              ],
+    return Row(
+      children: [
+        Expanded(
+          child: Center(
+            child: StopwatchPage(),
+          ),
+        ), // Bottom-left area
+        Expanded(
+          child: Center(
+            child: CupertinoButton(
+              child: const Icon(
+                CupertinoIcons.add_circled,
+                size: 64,
+              ),
+              onPressed: () {
+                showCupertinoModalPopup(
+                  context: context,
+                  builder: (BuildContext context) => popUpSurface,
+                );
+              },
             ),
           ),
-        ],
-      ),
+        ), // Bottom-right area with button in the center
+      ],
     );
   }
 }

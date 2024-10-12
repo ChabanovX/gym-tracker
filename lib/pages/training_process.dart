@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import '../widgets/add_exercise_surface_bottom.dart';
 import '../widgets/add_exercise_surface_popup.dart';
 import '../widgets/exercise_tile.dart';
-
 import '../models/exercise.dart';
+import '../style/style.dart';
 
 class TrainingProcess extends StatefulWidget {
   const TrainingProcess({super.key});
@@ -26,80 +26,99 @@ class _TrainingProcessState extends State<TrainingProcess> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        previousPageTitle: "Back",
-        middle: const Text('Workout Plan'),
-        trailing: CupertinoButton(
-          padding: const EdgeInsets.all(10),
-          child: const Icon(
-            CupertinoIcons.check_mark_circled,
-          ),
-          onPressed: () {
-            setState(() {
-              _exercises.add(
-                const Exercise(
-                  name: "Curl",
-                  sets: 3,
-                  reps: 12,
-                ),
-              );
-            });
-          },
-        ),
-      ),
+      navigationBar: _buildNavigationBar(),
       child: SafeArea(
         child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-              height: 50,
-              alignment: Alignment.centerLeft,
-              child: Text(
-                _exercises.isEmpty ? "No exercises" : "Your exercises",
-                style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
-              ),
+            _buildTitleSection(exercises: _exercises),
+            Flexible(
+              flex: 4,
+              child: _buildExerciseListSection(exercises: _exercises),
             ),
-            SizedBox(
-              width: double.infinity,
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      CupertinoTheme.of(context).primaryContrastingColor,
-                      CupertinoColors.lightBackgroundGray,
-                    ],
-                  ),
-                ),
-                height: 550,
-                child: CupertinoScrollbar(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: List.generate(
-                        _exercises.length,
-                        (index) {
-                          return ExerciseTile(
-                            title: _exercises[index].name,
-                            onTap: () {
-                              print(_exercises[index].name);
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            AddExerciseSurfaceBottom(
-              popUpSurface: AddExercisePopup(
-                onExerciseSelected: _addExercise,  // Pass the callback function
-              ),
+            Flexible(
+              flex: 1,
+              child: _buildAddExerciseSection(addExercise: _addExercise),
             ),
           ],
         ),
       ),
     );
   }
+
+  CupertinoNavigationBar _buildNavigationBar() {
+    return CupertinoNavigationBar(
+      previousPageTitle: "Back",
+      middle: const Text('Workout Plan!'),
+      trailing: CupertinoButton(
+        padding: const EdgeInsets.all(10),
+        child: const Icon(
+          CupertinoIcons.check_mark_circled,
+        ),
+        onPressed: () {
+          setState(() {
+            _exercises.add(Exercise(name: "Squat", sets: 3, reps: 10));
+          });
+        },
+      ),
+    );
+  }
+}
+
+class _buildTitleSection extends StatelessWidget {
+  const _buildTitleSection({
+    super.key,
+    required List<Exercise> exercises,
+  }) : _exercises = exercises;
+
+  final List<Exercise> _exercises;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+      alignment: Alignment.centerLeft,
+      child: Text(
+        _exercises.isEmpty ? "No exercises" : "Your exercises",
+        style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
+      ),
+    );
+  }
+}
+
+class _buildExerciseListSection extends StatelessWidget {
+  const _buildExerciseListSection({
+    super.key,
+    required List<Exercise> exercises,
+  }) : _exercises = exercises;
+
+  final List<Exercise> _exercises;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BackgroundStyles.gradientDecoration(context),
+      child: CupertinoScrollbar(
+        child: ListView.builder(
+          itemCount: _exercises.length,
+          itemBuilder: (context, index) {
+            return ExerciseTile(
+              title: _exercises[index].name,
+              onTap: () {
+                // TODO: DELETE THTAT SHIT
+                print(_exercises[index].name);
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+Widget _buildAddExerciseSection({required addExercise}) {
+  return AddExerciseSurfaceBottom(
+    popUpSurface: AddExercisePopup(
+      onExerciseSelected: addExercise, // Pass the callback function
+    ),
+  );
 }

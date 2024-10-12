@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'training_process.dart';
+
+import '../style/style.dart';
+
 
 class TrainPage extends StatelessWidget {
   const TrainPage({super.key});
@@ -10,21 +12,12 @@ class TrainPage extends StatelessWidget {
     return CupertinoPageScaffold(
       child: Container(
         // Adding a subtle gradient background
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              CupertinoColors.systemBackground,
-              CupertinoColors.lightBackgroundGray
-            ],
-          ),
-        ),
+        decoration: BackgroundStyles.gradientDecoration(context),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 50.0),
+              padding: const EdgeInsets.only(top: 0),
               child: Text(
                 "Hello, Ivan! 💪",
                 style: CupertinoTheme.of(context)
