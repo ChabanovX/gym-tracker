@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'training_process.dart';
 
 class TrainPage extends StatelessWidget {
@@ -13,7 +14,10 @@ class TrainPage extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [CupertinoColors.systemBackground, CupertinoColors.lightBackgroundGray],
+            colors: [
+              CupertinoColors.systemBackground,
+              CupertinoColors.lightBackgroundGray
+            ],
           ),
         ),
         child: Column(
@@ -23,16 +27,23 @@ class TrainPage extends StatelessWidget {
               padding: const EdgeInsets.only(top: 50.0),
               child: Text(
                 "Hello, Ivan! 💪",
-                style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle.copyWith(
+                style: CupertinoTheme.of(context)
+                    .textTheme
+                    .navLargeTitleTextStyle
+                    .copyWith(
                       fontSize: 28, // Increase font size for more emphasis
                       fontWeight: FontWeight.bold, // Make text bold
                     ),
               ),
             ),
-            const SizedBox(height: 40), // Added more space between the greeting and the button
+            const SizedBox(
+                height:
+                    40), // Added more space between the greeting and the button
             Center(
               child: CupertinoButton(
-                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15), // Increased padding for larger button
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 50,
+                    vertical: 15), // Increased padding for larger button
                 onPressed: () => {
                   Navigator.push(
                     context,
@@ -41,8 +52,10 @@ class TrainPage extends StatelessWidget {
                     ),
                   )
                 },
-                color: CupertinoColors.systemPink, // Changed button color to pink for better contrast
-                borderRadius: BorderRadius.circular(20), // Rounded corners for modern look
+                color: CupertinoColors
+                    .systemPink, // Changed button color to pink for better contrast
+                borderRadius: BorderRadius.circular(
+                    20), // Rounded corners for modern look
                 child: const Text(
                   "Create a new Train",
                   style: TextStyle(
