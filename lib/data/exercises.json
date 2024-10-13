@@ -1,0 +1,44 @@
+[
+    {
+        "name": "Bench Press",
+        "description": "A strength training exercise that targets the chest, shoulders, and triceps by pressing a weighted barbell from the chest upward.",
+        "id": 0,
+        "category": "chest",
+        "imagePath": "assets/images/bench_press.jpg"
+    },
+    {
+        "name": "Squat",
+        "description": "A foundational lower-body exercise that targets the quadriceps, glutes, hamstrings, and core by bending the knees and lowering the hips.",
+        "id": 1,
+        "category": "legs",
+        "imagePath": "assets/images/squat.jpg"
+    },
+    {
+        "name": "Deadlift",
+        "description": "A full-body compound movement that primarily works the lower back, glutes, hamstrings, and traps by lifting a loaded barbell off the ground.",
+        "id": 2,
+        "category": "back",
+        "imagePath": "assets/images/deadlift.jpg"
+    },
+    {
+        "name": "Barbell Curl",
+        "description": "A strength-building exercise that focuses on the biceps, performed by curling a barbell from the thighs to the shoulders.",
+        "id": 3,
+        "category": "arms",
+        "imagePath": "assets/images/barbell_curl.jpg"
+    },
+    {
+        "name": "Shoulder Press",
+        "description": "An upper-body exercise that targets the deltoid muscles by pressing dumbbells or a barbell overhead.",
+        "id": 4,
+        "category": "shoulders",
+        "imagePath": "assets/images/shoulder_press.jpg"
+    },
+    {
+        "name": "Lateral Raise",
+        "description": "An isolation exercise that targets the lateral head of the deltoid muscles by lifting dumbbells to the side.",
+        "id": 5,
+        "category": "shoulders",
+        "imagePath": "assets/images/lateral_raise.jpg"
+    }
+]

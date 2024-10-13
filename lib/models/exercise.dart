@@ -1,9 +1,25 @@
-// TODO: add muscle group
 class Exercise {
   final String name;
-  final int sets;
-  final int reps;
+  final String description;
+  final String id;
+  final String category;
+  final String imagePath;
 
-  const Exercise({required this.name, required this.sets, required this.reps});
+  Exercise({
+    required this.name,
+    required this.description,
+    required this.id,
+    required this.category,
+    required this.imagePath,
+  });
+
+  factory Exercise.fromJson(Map<String, dynamic> json) {
+    return Exercise(
+      name: json['name'],
+      description: json['description'],
+      id: json['id'],
+      category: json['category'],
+      imagePath: json['imagePath'],
+    );
+  }
 }
-

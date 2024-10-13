@@ -1,20 +1,28 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'pages/stats_page.dart';
-import 'pages/start_train_page.dart';
+import 'blocs/workout_bloc/workout_bloc.dart';
+import 'blocs/workout_bloc/workout_event.dart';
+import 'services/dependency_injection.dart';
+
+import 'presentation/pages/stats_page.dart';
+import 'presentation/pages/start_train_page.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const CupertinoApp(
-      debugShowCheckedModeBanner: false,
-      theme: CupertinoThemeData(
-        brightness: Brightness.light,
-        primaryColor: CupertinoColors.systemPink,
+    return BlocProvider(
+      create: (_) => getIt<WorkoutBloc>()..add(LoadWorkoutsEvent()),
+      child: const CupertinoApp(
+        debugShowCheckedModeBanner: false,
+        theme: CupertinoThemeData(
+          brightness: Brightness.light,
+          primaryColor: CupertinoColors.systemPink,
+        ),
+        home: RootPage(),
       ),
-      home: RootPage(),
     );
   }
 }

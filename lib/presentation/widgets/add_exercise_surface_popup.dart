@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../models/exercise.dart';
+import '../../models/exercise.dart';
 
 class AddExercisePopup extends StatelessWidget {
   final List<Map<String, String>> exercises = [

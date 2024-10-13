@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import '../widgets/add_exercise_surface_bottom.dart';
 import '../widgets/add_exercise_surface_popup.dart';
 import '../widgets/exercise_tile.dart';
-import '../models/exercise.dart';
-import '../style/style.dart';
+import '../../models/exercise.dart';
+import '../../style/style.dart';
 
 class TrainingProcess extends StatefulWidget {
   const TrainingProcess({super.key});

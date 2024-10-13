@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'training_process.dart';
 
-import '../style/style.dart';
+import '../../style/style.dart';
 
 
 class TrainPage extends StatelessWidget {
