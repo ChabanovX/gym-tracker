@@ -1,12 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'blocs/workout_bloc/workout_bloc.dart';
 import 'blocs/workout_bloc/workout_event.dart';
 import 'services/dependency_injection.dart';
+import 'models/workout.dart';
 
 import 'presentation/pages/stats_page.dart';
 import 'presentation/pages/start_train_page.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Hive
+  await Hive.initFlutter();
+
+  // Register Hive adapters
+  Hive.registerAdapter(WorkoutAdapter());
+
+  // Open Hive boxes
+  await Hive.openBox<Workout>('workouts');
+
+  // Set up dependencies injection
+  setUpDependencies();
+
+  runApp(const MainApp());
+}
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -53,10 +73,4 @@ class RootPage extends StatelessWidget {
       },
     );
   }
-}
-
-void main() {
-  runApp(
-    MainApp(),
-  );
 }

@@ -31,6 +31,7 @@ flutter:
   assets:
     - assets/logo.png
     - assets/images/
+    - assets/exercises.json
   uses-material-design: true
 
 flutter_icons:
