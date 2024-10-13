@@ -56,7 +56,7 @@ class _TrainingProcessState extends State<TrainingProcess> {
         ),
         onPressed: () {
           setState(() {
-            _exercises.add(Exercise(name: "Squat", sets: 3, reps: 10));
+            // _exercises.add(Exercise(name: "Squat", sets: 3, reps: 10)); 
           });
         },
       ),

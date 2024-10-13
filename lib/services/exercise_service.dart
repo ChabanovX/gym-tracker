@@ -20,14 +20,14 @@ class ExerciseService {
     _exercises = data.map((json) => Exercise.fromJson(json)).toList();
   }
 
-  Exercise? getExerciseById(String id) {
+  Exercise? getExerciseById(int id) {
     if (_exercises == null) {
       return null;
     }
     return _exercises!.firstWhere((exercise) => exercise.id == id);
   }
 
-  List<Exercise> getExercisesByIds(List<String> ids) {
+  List<Exercise> getExercisesByIds(List<int> ids) {
     if (_exercises == null) return [];
     return _exercises!.where((exercise) => ids.contains(exercise.id)).toList();
   }
