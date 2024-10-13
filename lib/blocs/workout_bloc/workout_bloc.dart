@@ -18,7 +18,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       LoadWorkoutsEvent event, Emitter<WorkoutState> emit) async {
     emit(WorkoutLoadingState());
     try {
-      final workouts = workoutRepository.getAllWorkout();
+      final workouts = workoutRepository.getAllWorkouts();
       emit(WorkoutLoadedState(workouts));
     } catch (e) {
       emit(WorkoutErrorState("Failed to load workouts"));

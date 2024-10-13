@@ -26,7 +26,6 @@ class _AddExercisePopupState extends State<AddExercisePopup> {
     super.initState();
     _exerciseService = getIt<ExerciseService>();
     _loadExercises();
-    print(_exerciseService.getExercises());
   }
 
   void _loadExercises() async {

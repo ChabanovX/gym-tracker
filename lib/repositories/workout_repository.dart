@@ -16,7 +16,7 @@ class WorkoutRepository {
     await _workoutBox.delete(workout.id);
   }
 
-  List<Workout> getAllWorkout() {
+  List<Workout> getAllWorkouts() {
     return _workoutBox.values.toList();
   }
 

@@ -16,10 +16,14 @@ class Workout {
   @HiveField(3)
   final List<int> exerciseIds;
 
+  @HiveField(4)
+  final Duration duration;
+
   Workout({
     required this.id,
     required this.name,
     required this.date,
     required this.exerciseIds,
+    required this.duration,
   });
 }

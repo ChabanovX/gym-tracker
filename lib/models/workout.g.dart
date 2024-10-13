@@ -21,13 +21,14 @@ class WorkoutAdapter extends TypeAdapter<Workout> {
       name: fields[1] as String,
       date: fields[2] as DateTime,
       exerciseIds: (fields[3] as List).cast<int>(),
+      duration: fields[4] as Duration,
     );
   }
 
   @override
   void write(BinaryWriter writer, Workout obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class WorkoutAdapter extends TypeAdapter<Workout> {
       ..writeByte(2)
       ..write(obj.date)
       ..writeByte(3)
-      ..write(obj.exerciseIds);
+      ..write(obj.exerciseIds)
+      ..writeByte(4)
+      ..write(obj.duration);
   }
 
   @override

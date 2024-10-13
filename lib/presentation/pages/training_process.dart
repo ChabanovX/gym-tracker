@@ -9,7 +9,6 @@ import '../../models/exercise.dart';
 import '../../models/workout.dart';
 import '../../blocs/workout_bloc/workout_bloc.dart';
 import '../../blocs/workout_bloc/workout_event.dart';
-import '../../services/dependency_injection.dart';
 import '../../style/style.dart';
 
 class TrainingProcess extends StatefulWidget {
@@ -34,12 +33,12 @@ class _TrainingProcessState extends State<TrainingProcess> {
       showCupertinoDialog(
         context: context,
         builder: (context) => CupertinoAlertDialog(
-          title: Text('No Exercises'),
+          title: const Text('No Exercises'),
           content:
-              Text('Please add at least one exercise to save the workout.'),
+              const Text('Please add at least one exercise to save the workout.'),
           actions: [
             CupertinoDialogAction(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () => Navigator.pop(context),
             ),
           ],
@@ -51,7 +50,7 @@ class _TrainingProcessState extends State<TrainingProcess> {
     String workoutName = 'Workout ${DateTime.now().toIso8601String()}';
 
     // Generate a unique ID for the workout
-    var uuid = Uuid();
+    var uuid = const Uuid();
     int workoutId = uuid.v1().hashCode;
 
     // Create a workout object
@@ -60,6 +59,7 @@ class _TrainingProcessState extends State<TrainingProcess> {
       name: workoutName,
       date: DateTime.now(),
       exerciseIds: _exercises.map((exercise) => exercise.id).toList(),
+      duration: Duration(hours: 1) // TODO: GET TIME FROM STOPWATCH
     );
 
     try {
@@ -70,12 +70,12 @@ class _TrainingProcessState extends State<TrainingProcess> {
       showCupertinoDialog(
         context: context,
         builder: (context) => CupertinoAlertDialog(
-          title: Text('Workout Saved'),
+          title: const Text('Workout Saved'),
           content:
               Text('Your workout "$workoutName" has been saved successfully.'),
           actions: [
             CupertinoDialogAction(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () => {Navigator.pop(context), Navigator.pop(context)},
             ),
           ],
@@ -86,17 +86,16 @@ class _TrainingProcessState extends State<TrainingProcess> {
       showCupertinoDialog(
         context: context,
         builder: (context) => CupertinoAlertDialog(
-          title: Text('Error'),
-          content: Text('Failed to save the workout. Please try again.'),
+          title: const Text('Error'),
+          content: const Text('Failed to save the workout. Please try again.'),
           actions: [
             CupertinoDialogAction(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () => Navigator.pop(context),
             ),
           ],
         ),
       );
-      print('Error saving workout: $e');
     }
   }
 
@@ -182,7 +181,6 @@ class _buildExerciseListSection extends StatelessWidget {
               title: _exercises[index].name,
               onTap: () {
                 // TODO: DELETE THTAT SHIT
-                print(_exercises[index].name);
               },
             );
           },

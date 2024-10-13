@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart'; // For charts, we can use external charting libraries
 
 class StatisticsPage extends StatelessWidget {
   const StatisticsPage({super.key});
