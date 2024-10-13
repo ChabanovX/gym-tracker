@@ -5,7 +5,7 @@ part 'workout.g.dart';
 @HiveType(typeId: 0)
 class Workout {
   @HiveField(0)
-  final String id;
+  final int id;
 
   @HiveField(1)
   final String name;
@@ -14,7 +14,7 @@ class Workout {
   final DateTime date;
 
   @HiveField(3)
-  final List<String> exerciseIds;
+  final List<int> exerciseIds;
 
   Workout({
     required this.id,

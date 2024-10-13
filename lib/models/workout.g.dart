@@ -17,10 +17,10 @@ class WorkoutAdapter extends TypeAdapter<Workout> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Workout(
-      id: fields[0] as String,
+      id: fields[0] as int,
       name: fields[1] as String,
       date: fields[2] as DateTime,
-      exerciseIds: (fields[3] as List).cast<String>(),
+      exerciseIds: (fields[3] as List).cast<int>(),
     );
   }
 

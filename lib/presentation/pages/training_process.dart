@@ -1,9 +1,15 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/uuid.dart';
 
 import '../widgets/add_exercise_surface_bottom.dart';
 import '../widgets/add_exercise_surface_popup.dart';
 import '../widgets/exercise_tile.dart';
 import '../../models/exercise.dart';
+import '../../models/workout.dart';
+import '../../blocs/workout_bloc/workout_bloc.dart';
+import '../../blocs/workout_bloc/workout_event.dart';
+import '../../services/dependency_injection.dart';
 import '../../style/style.dart';
 
 class TrainingProcess extends StatefulWidget {
@@ -21,6 +27,77 @@ class _TrainingProcessState extends State<TrainingProcess> {
     setState(() {
       _exercises.add(exercise);
     });
+  }
+
+  void _saveWorkout() async {
+    if (_exercises.isEmpty) {
+      showCupertinoDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: Text('No Exercises'),
+          content:
+              Text('Please add at least one exercise to save the workout.'),
+          actions: [
+            CupertinoDialogAction(
+              child: Text('OK'),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    // Create a Workout object with the list of exercises
+    String workoutName = 'Workout ${DateTime.now().toIso8601String()}';
+
+    // Generate a unique ID for the workout
+    var uuid = Uuid();
+    int workoutId = uuid.v1().hashCode;
+
+    // Create a workout object
+    Workout newWorkout = Workout(
+      id: workoutId,
+      name: workoutName,
+      date: DateTime.now(),
+      exerciseIds: _exercises.map((exercise) => exercise.id).toList(),
+    );
+
+    try {
+      // Send AddWorkoutEvent to the bloc
+      context.read<WorkoutBloc>().add(AddWorkoutEvent(newWorkout));
+
+      // Provide user feedback
+      showCupertinoDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: Text('Workout Saved'),
+          content:
+              Text('Your workout "$workoutName" has been saved successfully.'),
+          actions: [
+            CupertinoDialogAction(
+              child: Text('OK'),
+              onPressed: () => {Navigator.pop(context), Navigator.pop(context)},
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      // Handle errors gracefully
+      showCupertinoDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: Text('Error'),
+          content: Text('Failed to save the workout. Please try again.'),
+          actions: [
+            CupertinoDialogAction(
+              child: Text('OK'),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      );
+      print('Error saving workout: $e');
+    }
   }
 
   @override
@@ -56,7 +133,7 @@ class _TrainingProcessState extends State<TrainingProcess> {
         ),
         onPressed: () {
           setState(() {
-            // _exercises.add(Exercise(name: "Squat", sets: 3, reps: 10)); 
+            _saveWorkout();
           });
         },
       ),
