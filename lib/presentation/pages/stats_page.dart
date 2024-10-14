@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart'; // Import Bloc
-import '../../blocs/workout_bloc/workout_bloc.dart'; // Adjust the path as needed
-import '../../blocs/workout_bloc/workout_state.dart'; // Adjust the path as needed
+import '../../blocs/workout_bloc/workout_bloc.dart';
+import '../../blocs/workout_bloc/workout_state.dart';
+import '../../blocs/workout_bloc/workout_event.dart';
+
 
 class StatisticsPage extends StatelessWidget {
   const StatisticsPage({super.key});
@@ -10,17 +12,16 @@ class StatisticsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WorkoutBloc, WorkoutState>(
       builder: (context, state) {
-        // Initialize variables to hold dynamic data
+
         int totalWorkouts = 0;
         String totalTimeSpent = '0h 0m'; // Placeholder
-        // You can add more dynamic variables here as needed
 
         // Check the current state and extract data accordingly
         if (state is WorkoutLoadingState) {
           // While loading, show a loading indicator
           return CupertinoPageScaffold(
-            navigationBar: _buildNavigationBar(),
-            child: Center(child: CupertinoActivityIndicator()),
+            navigationBar: _buildNavigationBar(context),
+            child: const Center(child: CupertinoActivityIndicator()),
           );
         } else if (state is WorkoutLoadedState) {
           // Extract total workouts
@@ -30,7 +31,7 @@ class StatisticsPage extends StatelessWidget {
           // This assumes each workout has a 'duration' field in minutes
           // Modify according to your actual data structure
           totalTimeSpent = state.workouts.fold<int>(
-                  0, (sum, workout) => sum + (workout.duration ?? 0))
+                  0, (sum, workout) => sum + (workout.duration.inMinutes))
               .let((totalMinutes) =>
                   '${(totalMinutes ~/ 60)}h ${(totalMinutes % 60)}m');
 
@@ -38,7 +39,7 @@ class StatisticsPage extends StatelessWidget {
         } else if (state is WorkoutErrorState) {
           // If there's an error, display an error message
           return CupertinoPageScaffold(
-            navigationBar: _buildNavigationBar(),
+            navigationBar: _buildNavigationBar(context),
             child: Center(
               child: Text(
                 state.message,
@@ -50,7 +51,7 @@ class StatisticsPage extends StatelessWidget {
 
         // Once data is loaded, build the Statistics Page
         return CupertinoPageScaffold(
-          navigationBar: _buildNavigationBar(),
+          navigationBar: _buildNavigationBar(context),
           child: SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
@@ -116,7 +117,7 @@ class StatisticsPage extends StatelessWidget {
     );
   }
 
-  CupertinoNavigationBar _buildNavigationBar() {
+  CupertinoNavigationBar _buildNavigationBar(BuildContext context) {
     return CupertinoNavigationBar(
       previousPageTitle: "Back",
       middle: const Text('Statistics'),
@@ -128,6 +129,7 @@ class StatisticsPage extends StatelessWidget {
         onPressed: () {
           // Optionally, you can trigger a reload of statistics
           context.read<WorkoutBloc>().add(LoadWorkoutsEvent());
+          print("Refresh button clicked");
         },
       ),
     );

@@ -6,7 +6,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'blocs/workout_bloc/workout_bloc.dart';
 import 'blocs/workout_bloc/workout_event.dart';
 import 'services/dependency_injection.dart';
-import '../repositories/workout_repository.dart';
 import 'models/workout.dart';
 
 import 'presentation/pages/stats_page.dart';
@@ -29,6 +28,7 @@ void main() async {
   setUpDependencies();
 
   // TODO: DELETE
+  // import '../repositories/workout_repository.dart';
   // var exercises = await getIt<WorkoutRepository>().getAllWorkouts();
   // print(exercises[0].exerciseIds);
 
