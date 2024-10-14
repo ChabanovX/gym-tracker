@@ -12,6 +12,12 @@ class WorkoutLoadedState extends WorkoutState {
   WorkoutLoadedState(this.workouts);
 }
 
+class WorkoutAddedState extends WorkoutState {
+  final Workout workout;
+
+  WorkoutAddedState(this.workout);
+}
+
 class WorkoutErrorState extends WorkoutState {
   final String message;
 

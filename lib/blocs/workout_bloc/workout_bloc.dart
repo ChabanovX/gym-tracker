@@ -27,7 +27,8 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
   void _onAddWorkout(AddWorkoutEvent event, Emitter<WorkoutState> emit) async {
     try {
-      workoutRepository.addWorkout(event.workout);
+      await workoutRepository.addWorkout(event.workout);
+      emit(WorkoutAddedState(event.workout));
       add(LoadWorkoutsEvent());
     } catch (e) {
       emit(WorkoutErrorState("Failed to add workout"));

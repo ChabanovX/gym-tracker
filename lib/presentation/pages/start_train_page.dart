@@ -10,30 +10,14 @@ class TrainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       child: Container(
-        // Adding a subtle gradient background
         decoration: BackgroundStyles.gradientDecoration(context),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Padding(
-            //   padding: const EdgeInsets.only(top: 0),
-            //   child: Text(
-            //     "Hello, Ivan! 💪",
-            //     style: CupertinoTheme.of(context)
-            //         .textTheme
-            //         .navLargeTitleTextStyle
-            //         .copyWith(
-            //           fontSize: 28, // Increase font size for more emphasis
-            //           fontWeight: FontWeight.bold, // Make text bold
-            //         ),
-            //   ),
-            // ),
-            // const SizedBox(height: 40),
             Center(
               child: CupertinoButton(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 50,
-                    vertical: 15), // Increased padding for larger button
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 onPressed: () => {
                   Navigator.push(
                     context,
@@ -42,14 +26,12 @@ class TrainPage extends StatelessWidget {
                     ),
                   )
                 },
-                color: CupertinoColors
-                    .systemPink, // Changed button color to pink for better contrast
-                borderRadius: BorderRadius.circular(
-                    20), // Rounded corners for modern look
+                color: CupertinoColors.systemPink,
+                borderRadius: BorderRadius.circular(20),
                 child: const Text(
                   "Start Training",
                   style: TextStyle(
-                    fontSize: 18, // Increased text size for the button
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

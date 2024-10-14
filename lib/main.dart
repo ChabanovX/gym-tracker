@@ -45,7 +45,7 @@ class MainApp extends StatelessWidget {
       child: const CupertinoApp(
         debugShowCheckedModeBanner: false,
         theme: CupertinoThemeData(
-          brightness: Brightness.light,
+          brightness: Brightness.dark,
           primaryColor: CupertinoColors.systemPink,
         ),
         home: RootPage(),

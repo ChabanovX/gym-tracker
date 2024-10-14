@@ -10,6 +10,7 @@ import '../../models/exercise.dart';
 import '../../models/workout.dart';
 import '../../blocs/workout_bloc/workout_bloc.dart';
 import '../../blocs/workout_bloc/workout_event.dart';
+import '../../blocs/workout_bloc/workout_state.dart';
 import '../../style/style.dart';
 
 class TrainingProcess extends StatefulWidget {
@@ -48,10 +49,10 @@ class _TrainingProcessState extends State<TrainingProcess> {
     );
   }
 
-  // Saves workout and returns workout name
-  String _saveWorkout() {
+  // Saves workout and returns workout name.
+  void _saveWorkout() {
     // Create a Workout object with the list of exercises
-    String workoutName = 'Workout ${DateTime.now().toIso8601String()}';
+    String workoutName = 'Workout ${DateTime.now().toLocal().toString()}';
 
     // Generate a unique ID for the workout
     var uuid = const Uuid();
@@ -66,10 +67,7 @@ class _TrainingProcessState extends State<TrainingProcess> {
         duration: const Duration(hours: 1) // TODO: !
         );
 
-    // Send AddWorkoutEvent to the bloc
     context.read<WorkoutBloc>().add(AddWorkoutEvent(newWorkout));
-
-    return workoutName;
   }
 
   void _saveWorkoutButtonEvent() async {
@@ -80,100 +78,87 @@ class _TrainingProcessState extends State<TrainingProcess> {
       );
       return;
     }
-    var newWorkoutName = _saveWorkout();
-    // Provide user feedback
-    _showDialog(
-      title: "Workout Saved",
-      content: 'Your workout "$newWorkoutName" has been saved successfully.',
-      // Actions provided as we should also leave the page
-      actions: [
-        CupertinoDialogAction(
-          child: const Text('OK'),
-          onPressed: () => {
-            Navigator.pop(context),
-            Navigator.pop(context),
-          },
-        ),
-      ],
-    );
+    _saveWorkout();
   }
 
   void _leaveButtonEvent() {
     // Only triggers when user trying to leave with added exercises
-    showCupertinoDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CupertinoAlertDialog(
-          title: const Text('Save Workout?'),
-          content: const Text(
-              'You have added exercises. Would you like to save them or discard changes?'),
-          actions: [
-            CupertinoDialogAction(
-              isDestructiveAction: true,
-              onPressed: () {
-                Navigator.pop(context); // Close "Save Workout?" dialog
-                Navigator.pop(context); // Leave page
-              },
-              child: const Text('Discard'),
-            ),
-            CupertinoDialogAction(
-              onPressed: () {
-                var newWorkoutName = _saveWorkout(); // TODO: SHOULD MONITOR WORKOUT STATE. DO ACTIONS RESPECTIVELY
-                // Provide user feedback
-                _showDialog(
-                  title: "Workout Saved",
-                  content:
-                      'Your workout "$newWorkoutName" has been saved successfully.',
-                  // Actions provided as we should also leave the page
-                  actions: [
-                    CupertinoDialogAction(
-                      child: const Text('OK'),
-                      onPressed: () => {
-                        Navigator.pop(context), // Close "Workout Saved" dialog
-                        Navigator.pop(context), // Close "Workout Saved" dialog
-                        Navigator.pop(context), // Leave page
-                      },
-                    ),
-                  ],
-                );
-              },
-              child: const Text('Save'),
-            ),
-          ],
-        );
-      },
-    );
+    _showDialog(
+        title: 'Save Workout?',
+        content:
+            'You have added exercises. Would you like to discard them?',
+        actions: [
+          CupertinoDialogAction(
+            isDestructiveAction: true,
+            onPressed: () {
+              Navigator.pop(context); // Close "Save Workout?" dialog
+              Navigator.pop(context); // Leave page
+            },
+            child: const Text('Discard'),
+          ),
+          CupertinoDialogAction(
+            onPressed: () {
+              Navigator.pop(context); // Leave page
+            },
+            child: const Text('Cancel'),
+          ),
+        ]);
   }
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: _exercises.isEmpty,
-      onPopInvokedWithResult: (bool didPop, dynamic result) {
-        if (!didPop) {
-          _leaveButtonEvent();
-          return;
-        }
-      },
-      child: CupertinoPageScaffold(
-        navigationBar: _buildNavigationBar(),
-        child: SafeArea(
-          child: Column(
-            children: [
-              _buildTitleSection(exercises: _exercises),
-              Flexible(
-                flex: 4,
-                child: _buildExerciseListSection(exercises: _exercises),
+    return BlocListener<WorkoutBloc, WorkoutState>(
+        listener: (context, state) {
+          if (state is WorkoutAddedState) {
+            _showDialog(
+              title: "Workout Saved",
+              content:
+                  'Your workout "${state.workout.name}" has been saved successfully.',
+              actions: [
+                CupertinoDialogAction(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.pop(context); // Close dialog
+                    Navigator.pop(context); // Leave page
+                  },
+                ),
+              ],
+            );
+          } else if (state is WorkoutErrorState) {
+            _showDialog(
+              title: "Error",
+              content: 'Failed to save the workout. Please try again.',
+            );
+          }
+        },
+        child: PopScope(
+          // Used only if we leave with added exercises
+          canPop: _exercises.isEmpty,
+          onPopInvokedWithResult: (bool didPop, dynamic result) {
+            if (!didPop) {
+              _leaveButtonEvent();
+              return;
+            }
+          },
+          child: CupertinoPageScaffold(
+            navigationBar: _buildNavigationBar(),
+            child: SafeArea(
+              child: Column(
+                children: [
+                  _buildTitleSection(exercises: _exercises),
+                  Flexible(
+                    flex: 4,
+                    child: _buildExerciseListSection(exercises: _exercises),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: _buildAddExerciseSection(addExercise: _addExercise),
+                  ),
+                ],
               ),
-              Flexible(
-                flex: 1,
-                child: _buildAddExerciseSection(addExercise: _addExercise),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   CupertinoNavigationBar _buildNavigationBar() {
@@ -237,9 +222,7 @@ class _buildExerciseListSection extends StatelessWidget {
           itemBuilder: (context, index) {
             return ExerciseTile(
               title: _exercises[index].name,
-              onTap: () {
-                // TODO: DELETE THTAT SHIT
-              },
+              onTap: () {},
             );
           },
         ),
