@@ -16,28 +16,21 @@ class StatisticsPage extends StatelessWidget {
         int totalWorkouts = 0;
         String totalTimeSpent = '0h 0m'; // Placeholder
 
-        // Check the current state and extract data accordingly
         if (state is WorkoutLoadingState) {
-          // While loading, show a loading indicator
           return CupertinoPageScaffold(
             navigationBar: _buildNavigationBar(context),
             child: const Center(child: CupertinoActivityIndicator()),
           );
-        } else if (state is WorkoutLoadedState) {
-          // Extract total workouts
-          totalWorkouts = state.workouts.length;
 
-          // Example: Calculate total time spent based on workouts
-          // This assumes each workout has a 'duration' field in minutes
-          // Modify according to your actual data structure
+        } else if (state is WorkoutLoadedState) {
+          // Example of usage
+          totalWorkouts = state.workouts.length;
           totalTimeSpent = state.workouts.fold<int>(
                   0, (sum, workout) => sum + (workout.duration.inMinutes))
               .let((totalMinutes) =>
                   '${(totalMinutes ~/ 60)}h ${(totalMinutes % 60)}m');
 
-          // You can add more calculations here for other statistics
         } else if (state is WorkoutErrorState) {
-          // If there's an error, display an error message
           return CupertinoPageScaffold(
             navigationBar: _buildNavigationBar(context),
             child: Center(
@@ -49,7 +42,6 @@ class StatisticsPage extends StatelessWidget {
           );
         }
 
-        // Once data is loaded, build the Statistics Page
         return CupertinoPageScaffold(
           navigationBar: _buildNavigationBar(context),
           child: SafeArea(

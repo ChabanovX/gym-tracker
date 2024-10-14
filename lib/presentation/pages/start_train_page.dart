@@ -3,7 +3,6 @@ import 'training_process.dart';
 
 import '../../style/style.dart';
 
-
 class TrainPage extends StatelessWidget {
   const TrainPage({super.key});
 
@@ -16,22 +15,20 @@ class TrainPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 0),
-              child: Text(
-                "Hello, Ivan! 💪",
-                style: CupertinoTheme.of(context)
-                    .textTheme
-                    .navLargeTitleTextStyle
-                    .copyWith(
-                      fontSize: 28, // Increase font size for more emphasis
-                      fontWeight: FontWeight.bold, // Make text bold
-                    ),
-              ),
-            ),
-            const SizedBox(
-                height:
-                    40), // Added more space between the greeting and the button
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 0),
+            //   child: Text(
+            //     "Hello, Ivan! 💪",
+            //     style: CupertinoTheme.of(context)
+            //         .textTheme
+            //         .navLargeTitleTextStyle
+            //         .copyWith(
+            //           fontSize: 28, // Increase font size for more emphasis
+            //           fontWeight: FontWeight.bold, // Make text bold
+            //         ),
+            //   ),
+            // ),
+            // const SizedBox(height: 40),
             Center(
               child: CupertinoButton(
                 padding: const EdgeInsets.symmetric(
@@ -50,7 +47,7 @@ class TrainPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(
                     20), // Rounded corners for modern look
                 child: const Text(
-                  "Create a new Train",
+                  "Start Training",
                   style: TextStyle(
                     fontSize: 18, // Increased text size for the button
                     fontWeight: FontWeight.bold,
