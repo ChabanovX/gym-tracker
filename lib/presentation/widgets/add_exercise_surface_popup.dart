@@ -17,8 +17,12 @@ class AddExercisePopup extends StatefulWidget {
 
 class _AddExercisePopupState extends State<AddExercisePopup> {
   late ExerciseService _exerciseService;
+
   List<Exercise> _exercises = [];
   List<Exercise> _filteredExercises = [];
+  List<String> _categories = [];
+  List<String> _selectedCategories = [];
+  String _currentQuery = '';
   bool _isLoading = true;
 
   @override
@@ -28,35 +32,77 @@ class _AddExercisePopupState extends State<AddExercisePopup> {
     _loadExercises();
   }
 
+  List<String> _extractCategories(List<Exercise> exercises) {
+    return exercises.map((e) => e.category).toSet().toList();
+  }
+
   void _loadExercises() async {
     try {
-    List<Exercise> exercises = await _exerciseService.getExercises();
-    setState(() {
-      _exercises = exercises;
-      _filteredExercises = exercises;
-      _isLoading = false;
-    });
+      List<Exercise> exercises = await _exerciseService.getExercises();
+      _categories = _extractCategories(exercises);
+      setState(() {
+        _exercises = exercises;
+        _filteredExercises = exercises;
+        _isLoading = false;
+      });
     } catch (e) {
       setState(() {
         _isLoading = true;
-        print(e);
       });
     }
   }
 
+  // Matches both query and category
   void _filterExercises(String query) {
-    if (query.isEmpty) {
-      setState(() {
-        _filteredExercises = _exercises;
-      });
-    } else {
-      setState(() {
-        _filteredExercises = _exercises
-            .where((exercise) =>
-                exercise.name.toLowerCase().contains(query.toLowerCase()))
-            .toList();
-      });
-    }
+    _currentQuery = query;
+    setState(() {
+      _filteredExercises = _exercises.where((exercise) {
+        final matchesQuery =
+            exercise.name.toLowerCase().contains(query.toLowerCase());
+        final matchesCategory = _selectedCategories.isEmpty ||
+            _selectedCategories.contains(exercise.category);
+        return matchesQuery && matchesCategory;
+      }).toList();
+    });
+  }
+
+  Widget _buildSearchField() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: CupertinoSearchTextField(
+        placeholder: 'Search exercises...',
+        onChanged: (text) {
+          _filterExercises(text);
+        },
+      ),
+    );
+  }
+
+  Widget _buildCategoryFilter() {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      child: CupertinoSegmentedControl<String>(
+        children: {
+          for (var category in _categories)
+            category: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(category),
+            ),
+        },
+        onValueChanged: (selectedCategory) {
+          setState(() {
+            if (_selectedCategories.contains(selectedCategory)) {
+              _selectedCategories.remove(selectedCategory);
+            } else {
+              _selectedCategories.add(selectedCategory);
+            }
+            _filterExercises(_currentQuery);
+          });
+        },
+        groupValue:
+            _selectedCategories.isNotEmpty ? _selectedCategories.first : null,
+      ),
+    );
   }
 
   @override
@@ -65,82 +111,18 @@ class _AddExercisePopupState extends State<AddExercisePopup> {
       isSurfacePainted: true,
       child: SafeArea(
         top: false,
-        child: Container(
+        child: SizedBox(
           height: 660,
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CupertinoSearchTextField(
-                  placeholder: 'Search exercises...',
-                  onChanged: (text) {
-                    _filterExercises(text);
-                  },
-                ),
-              ),
+              _buildSearchField(),
+              _buildCategoryFilter(),
               Expanded(
                 child: _isLoading
                     ? const Center(child: CupertinoActivityIndicator())
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 12.0,
-                            mainAxisSpacing: 12.0,
-                            childAspectRatio: 3 / 4,
-                          ),
-                          itemCount: _filteredExercises.length,
-                          itemBuilder: (context, index) {
-                            final exercise = _filteredExercises[index];
-                            return GestureDetector(
-                              onTap: () {
-                                // Pass the exercise to the callback
-                                widget.onExerciseSelected(exercise);
-                                Navigator.pop(
-                                    context); // Close the popup after selection
-                              },
-                              child: GridTile(
-                                footer: Container(
-                                  padding: const EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        CupertinoColors.black.withOpacity(0.5),
-                                    borderRadius: const BorderRadius.vertical(
-                                      bottom: Radius.circular(8),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    exercise.name,
-                                    textAlign: TextAlign.center,
-                                    style: CupertinoTheme.of(context)
-                                        .textTheme
-                                        .navTitleTextStyle
-                                        .copyWith(
-                                          fontSize: 14,
-                                          color: CupertinoColors.white,
-                                        ),
-                                  ),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.asset(
-                                    exercise.imagePath,
-                                    fit: BoxFit.cover,
-                                    errorBuilder:
-                                        (context, error, stackTrace) => const Icon(
-                                      CupertinoIcons.exclamationmark_circle,
-                                      size: 40,
-                                      color: CupertinoColors.systemRed,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                    : _buildGrid(
+                        filteredExercises: _filteredExercises,
+                        onExerciseSelected: (widget.onExerciseSelected)),
               ),
             ],
           ),
@@ -148,4 +130,63 @@ class _AddExercisePopupState extends State<AddExercisePopup> {
       ),
     );
   }
+}
+
+GridView _buildGrid({
+  required List<Exercise> filteredExercises,
+  required Function(Exercise) onExerciseSelected,
+}) {
+  return GridView.builder(
+    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      crossAxisSpacing: 12.0,
+      mainAxisSpacing: 12.0,
+      childAspectRatio: 3 / 4,
+    ),
+    itemCount: filteredExercises.length,
+    itemBuilder: (context, index) {
+      final exercise = filteredExercises[index];
+      return GestureDetector(
+        onTap: () {
+          onExerciseSelected(exercise);
+          Navigator.pop(context);
+        },
+        child: GridTile(
+          footer: Container(
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              color: CupertinoColors.black.withOpacity(0.5),
+              borderRadius: const BorderRadius.vertical(
+                bottom: Radius.circular(8),
+              ),
+            ),
+            child: Text(
+              exercise.name,
+              textAlign: TextAlign.center,
+              style: CupertinoTheme.of(context)
+                  .textTheme
+                  .navTitleTextStyle
+                  .copyWith(
+                    fontSize: 14,
+                    color: CupertinoColors.white,
+                  ),
+            ),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(
+              exercise.imagePath,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => const Icon(
+                CupertinoIcons.exclamationmark_circle,
+                size: 40,
+                color: CupertinoColors.systemRed,
+              ),
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }

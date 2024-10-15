@@ -45,7 +45,7 @@ class MainApp extends StatelessWidget {
       child: const CupertinoApp(
         debugShowCheckedModeBanner: false,
         theme: CupertinoThemeData(
-          brightness: Brightness.dark,
+          brightness: Brightness.light,
           primaryColor: CupertinoColors.systemPink,
         ),
         home: RootPage(),
@@ -74,8 +74,8 @@ class RootPage extends StatelessWidget {
       ),
       tabBuilder: (BuildContext context, int index) {
         return <Widget>[
-          TrainPage(),
-          StatisticsPage(),
+          const TrainPage(),
+          const StatisticsPage(),
         ][index];
       },
     );
