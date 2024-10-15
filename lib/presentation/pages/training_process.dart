@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
@@ -12,6 +13,7 @@ import '../../blocs/workout_bloc/workout_bloc.dart';
 import '../../blocs/workout_bloc/workout_event.dart';
 import '../../blocs/workout_bloc/workout_state.dart';
 import '../../style/style.dart';
+import '../../utils/utils.dart';
 
 class TrainingProcess extends StatefulWidget {
   const TrainingProcess({super.key});
@@ -22,6 +24,27 @@ class TrainingProcess extends StatefulWidget {
 
 class _TrainingProcessState extends State<TrainingProcess> {
   final List<Exercise> _exercises = [];
+  late Timer _timer;
+  final Stopwatch _stopwatch = Stopwatch();
+
+  @override // Starts timer when builds the page
+  void initState() {
+    super.initState();
+    _startStopwatch();
+  }
+
+  @override // Disposes timer when page is disposed
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  void _startStopwatch() {
+    _stopwatch.start();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {});
+    });
+  }
 
   // Function to add exercise to the list
   void _addExercise(Exercise exercise) {
@@ -30,31 +53,9 @@ class _TrainingProcessState extends State<TrainingProcess> {
     });
   }
 
-  // Helper method. Might go into a separate file
-  void _showDialog(
-      {required String title, required String content, List<Widget>? actions}) {
-    showCupertinoDialog(
-      context: context,
-      builder: (context) => CupertinoAlertDialog(
-        title: Text(title),
-        content: Text(content),
-        actions: actions ??
-            [
-              CupertinoDialogAction(
-                child: const Text('OK'),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-      ),
-    );
-  }
-
-  // Saves workout and returns workout name.
   void _saveWorkout() {
-    // Create a Workout object with the list of exercises
     String workoutName = 'Workout ${DateTime.now().toLocal().toString()}';
 
-    // Generate a unique ID for the workout
     var uuid = const Uuid();
     int workoutId = uuid.v1().hashCode;
 
@@ -64,17 +65,18 @@ class _TrainingProcessState extends State<TrainingProcess> {
         name: workoutName,
         date: DateTime.now(),
         exerciseIds: _exercises.map((exercise) => exercise.id).toList(),
-        duration: const Duration(hours: 1) // TODO: !
-        );
+        duration: _stopwatch.elapsed);
 
     context.read<WorkoutBloc>().add(AddWorkoutEvent(newWorkout));
   }
 
   void _saveWorkoutButtonEvent() async {
     if (_exercises.isEmpty) {
-      _showDialog(
+      showDialog(
+        context: context,
         title: 'No Exercises',
         content: 'Please add at least one exercise to save the workout.',
+        barrierDismissible: true,
       );
       return;
     }
@@ -83,22 +85,23 @@ class _TrainingProcessState extends State<TrainingProcess> {
 
   void _leaveButtonEvent() {
     // Only triggers when user trying to leave with added exercises
-    _showDialog(
-        title: 'Save Workout?',
-        content:
-            'You have added exercises. Would you like to discard them?',
+    showDialog(
+        context: context,
+        title: 'Discard Workout?',
+        content: 'You have added exercises. Would you like to discard them?',
+        barrierDismissible: true,
         actions: [
           CupertinoDialogAction(
             isDestructiveAction: true,
             onPressed: () {
-              Navigator.pop(context); // Close "Save Workout?" dialog
+              Navigator.pop(context); // Close "Discard Workout?" dialog
               Navigator.pop(context); // Leave page
             },
             child: const Text('Discard'),
           ),
           CupertinoDialogAction(
             onPressed: () {
-              Navigator.pop(context); // Leave page
+              Navigator.pop(context); // Close "Discard Workout?" dialog
             },
             child: const Text('Cancel'),
           ),
@@ -110,7 +113,8 @@ class _TrainingProcessState extends State<TrainingProcess> {
     return BlocListener<WorkoutBloc, WorkoutState>(
         listener: (context, state) {
           if (state is WorkoutAddedState) {
-            _showDialog(
+            showDialog(
+              context: context,
               title: "Workout Saved",
               content:
                   'Your workout "${state.workout.name}" has been saved successfully.',
@@ -125,7 +129,8 @@ class _TrainingProcessState extends State<TrainingProcess> {
               ],
             );
           } else if (state is WorkoutErrorState) {
-            _showDialog(
+            showDialog(
+              context: context,
               title: "Error",
               content: 'Failed to save the workout. Please try again.',
             );
@@ -152,7 +157,10 @@ class _TrainingProcessState extends State<TrainingProcess> {
                   ),
                   Flexible(
                     flex: 1,
-                    child: _buildAddExerciseSection(addExercise: _addExercise),
+                    child: _buildAddExerciseSection(
+                      stopWatch: _stopwatch,
+                      addExercise: _addExercise,
+                    ),
                   ),
                 ],
               ),
@@ -231,8 +239,12 @@ class _buildExerciseListSection extends StatelessWidget {
   }
 }
 
-Widget _buildAddExerciseSection({required addExercise}) {
+Widget _buildAddExerciseSection({
+  required addExercise,
+  required stopWatch,
+}) {
   return AddExerciseSurfaceBottom(
+    stopwatch: stopWatch,
     popUpSurface: AddExercisePopup(
       onExerciseSelected: addExercise, // Pass the callback function
     ),

@@ -36,7 +36,7 @@ class StatisticsPage extends StatelessWidget {
             child: Center(
               child: Text(
                 state.message,
-                style: TextStyle(color: CupertinoColors.systemRed),
+                style: const TextStyle(color: CupertinoColors.systemRed),
               ),
             ),
           );
@@ -110,20 +110,9 @@ class StatisticsPage extends StatelessWidget {
   }
 
   CupertinoNavigationBar _buildNavigationBar(BuildContext context) {
-    return CupertinoNavigationBar(
+    return const CupertinoNavigationBar(
       previousPageTitle: "Back",
-      middle: const Text('Statistics'),
-      trailing: CupertinoButton(
-        padding: const EdgeInsets.all(10),
-        child: const Icon(
-          CupertinoIcons.refresh,
-        ),
-        onPressed: () {
-          // Optionally, you can trigger a reload of statistics
-          context.read<WorkoutBloc>().add(LoadWorkoutsEvent());
-          print("Refresh button clicked");
-        },
-      ),
+      middle: Text('Statistics'),
     );
   }
 

@@ -4,7 +4,13 @@ import 'stopwatch.dart';
 
 class AddExerciseSurfaceBottom extends StatelessWidget {
   final Widget popUpSurface;
-  const AddExerciseSurfaceBottom({super.key, required this.popUpSurface});
+  final Stopwatch stopwatch;
+
+  const AddExerciseSurfaceBottom({
+    super.key,
+    required this.popUpSurface,
+    required this.stopwatch,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +18,9 @@ class AddExerciseSurfaceBottom extends StatelessWidget {
       children: [
         Expanded(
           child: Center(
-            child: StopwatchPage(),
+            child: StopwatchWidget(
+              stopwatch: stopwatch,
+            ),
           ),
         ), // Bottom-left area
         Expanded(

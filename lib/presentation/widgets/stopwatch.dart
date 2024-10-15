@@ -1,34 +1,9 @@
-import 'dart:async';
 import 'package:flutter/cupertino.dart';
 
-class StopwatchPage extends StatefulWidget {
-  @override
-  _StopwatchPageState createState() => _StopwatchPageState();
-}
+class StopwatchWidget extends StatelessWidget {
+  final Stopwatch stopwatch;
 
-class _StopwatchPageState extends State<StopwatchPage> {
-  late Timer _timer;
-  final Stopwatch _stopwatch = Stopwatch();
-
-  @override
-  void initState() {
-    super.initState();
-    _startStopwatch(); // Start the stopwatch when the page is loaded.
-  }
-
-  @override
-  void dispose() {
-    _timer
-        .cancel(); // Cancel the timer when the page is disposed to avoid memory leaks.
-    super.dispose();
-  }
-
-  void _startStopwatch() {
-    _stopwatch.start();
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {});
-    });
-  }
+  const StopwatchWidget({super.key, required this.stopwatch});
 
   String _formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
@@ -41,7 +16,7 @@ class _StopwatchPageState extends State<StopwatchPage> {
   @override
   Widget build(BuildContext context) {
     return Text(
-      _formatDuration(_stopwatch.elapsed),
+      _formatDuration(stopwatch.elapsed),
       style: CupertinoTheme.of(context).textTheme.dateTimePickerTextStyle,
     );
   }
