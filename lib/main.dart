@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gymgym/models/duration_adapter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter/services.dart';
 
 import 'blocs/workout_bloc/workout_bloc.dart';
 import 'blocs/workout_bloc/workout_event.dart';
@@ -27,10 +28,9 @@ void main() async {
   // Set up dependencies injection
   setUpDependencies();
 
-  // TODO: DELETE
-  // import '../repositories/workout_repository.dart';
-  // var exercises = await getIt<WorkoutRepository>().getAllWorkouts();
-  // print(exercises[0].exerciseIds);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
 
   runApp(const MainApp());
 }

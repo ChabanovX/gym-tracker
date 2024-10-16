@@ -68,7 +68,8 @@ class _AddExercisePopupState extends State<AddExercisePopup> {
 
   Widget _buildSearchField() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      // padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
       child: CupertinoSearchTextField(
         placeholder: 'Search exercises...',
         onChanged: (text) {
@@ -78,32 +79,56 @@ class _AddExercisePopupState extends State<AddExercisePopup> {
     );
   }
 
-  Widget _buildCategoryFilter() {
-    return Container(
-      padding: const EdgeInsets.all(8.0),
-      child: CupertinoSegmentedControl<String>(
-        children: {
-          for (var category in _categories)
-            category: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(category),
+Widget _buildCategoryFilter() {
+  return Container(
+    height: 40,
+    margin: const EdgeInsets.all(8.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Distribute buttons evenly
+      children: _categories.map((category) {
+        final isSelected = _selectedCategories.contains(category);
+        return Expanded(
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                if (isSelected) {
+                  _selectedCategories.remove(category);
+                } else {
+                  _selectedCategories.add(category);
+                }
+                _filterExercises(_currentQuery);
+              });
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 4.0),
+              padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+              // padding: const EdgeInsets.all(2.0),
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? CupertinoColors.systemPink
+                    : CupertinoColors.systemGrey4,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Center(
+                child: Text(
+                  category,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14, // Adjust font size as needed
+                    color: isSelected
+                        ? CupertinoColors.white
+                        : CupertinoColors.black,
+                  ),
+                ),
+              ),
             ),
-        },
-        onValueChanged: (selectedCategory) {
-          setState(() {
-            if (_selectedCategories.contains(selectedCategory)) {
-              _selectedCategories.remove(selectedCategory);
-            } else {
-              _selectedCategories.add(selectedCategory);
-            }
-            _filterExercises(_currentQuery);
-          });
-        },
-        groupValue:
-            _selectedCategories.isNotEmpty ? _selectedCategories.first : null,
-      ),
-    );
-  }
+          ),
+        );
+      }).toList(),
+    ),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
