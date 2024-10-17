@@ -59,7 +59,6 @@ class _TrainingProcessState extends State<TrainingProcess> {
     var uuid = const Uuid();
     int workoutId = uuid.v1().hashCode;
 
-    // Create a workout object
     Workout newWorkout = Workout(
         id: workoutId,
         name: workoutName,
@@ -80,6 +79,8 @@ class _TrainingProcessState extends State<TrainingProcess> {
       );
       return;
     }
+    // bool isLeaving = false;
+    // showDialog(context: context, title: "Save workout and Leave?", content: "Would you like to save the workout and leave?", barrierDismissible: true);
     _saveWorkout();
   }
 
