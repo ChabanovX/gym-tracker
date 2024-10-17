@@ -101,11 +101,10 @@ Widget _buildCategoryFilter() {
             },
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 4.0),
-              padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
-              // padding: const EdgeInsets.all(2.0),
+              padding: const EdgeInsets.all(2.0),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? CupertinoColors.systemPink
+                    ? CupertinoTheme.of(context).primaryColor
                     : CupertinoColors.systemGrey4,
                 borderRadius: BorderRadius.circular(4.0),
               ),

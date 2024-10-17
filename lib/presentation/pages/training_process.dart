@@ -79,34 +79,58 @@ class _TrainingProcessState extends State<TrainingProcess> {
       );
       return;
     }
-    // bool isLeaving = false;
-    // showDialog(context: context, title: "Save workout and Leave?", content: "Would you like to save the workout and leave?", barrierDismissible: true);
-    _saveWorkout();
+
+    // Show confirmation dialog before saving
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text('Are you done?'),
+          content: const Text('Do you want to stop training?'),
+          actions: [
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _saveWorkout(); // Proceed to save the workout
+              },
+              child: const Text('Yes'),
+            ),
+            CupertinoDialogAction(
+              isDestructiveAction: false,
+              onPressed: () => Navigator.of(context).pop(), // Cancel
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _leaveButtonEvent() {
     // Only triggers when user trying to leave with added exercises
     showDialog(
-        context: context,
-        title: 'Discard Workout?',
-        content: 'You have added exercises. Would you like to discard them?',
-        barrierDismissible: true,
-        actions: [
-          CupertinoDialogAction(
-            isDestructiveAction: true,
-            onPressed: () {
-              Navigator.pop(context); // Close "Discard Workout?" dialog
-              Navigator.pop(context); // Leave page
-            },
-            child: const Text('Discard'),
-          ),
-          CupertinoDialogAction(
-            onPressed: () {
-              Navigator.pop(context); // Close "Discard Workout?" dialog
-            },
-            child: const Text('Cancel'),
-          ),
-        ]);
+      context: context,
+      title: 'Discard Workout?',
+      content: 'You have added exercises. Would you like to discard them?',
+      barrierDismissible: true,
+      actions: [
+        CupertinoDialogAction(
+          isDestructiveAction: true,
+          onPressed: () {
+            Navigator.pop(context); // Close "Discard Workout?" dialog
+            Navigator.pop(context); // Leave page
+          },
+          child: const Text('Discard'),
+        ),
+        CupertinoDialogAction(
+          onPressed: () {
+            Navigator.pop(context); // Close "Discard Workout?" dialog
+          },
+          child: const Text('Cancel'),
+        ),
+      ],
+    );
   }
 
   @override

@@ -21,7 +21,7 @@ class ExerciseTile extends StatelessWidget {
             BoxShadow(
               color: CupertinoColors.black.withOpacity(0.2),
               blurRadius: 6,
-              offset: Offset(0, 3), // Shadow below the tile
+              offset: const Offset(0, 5), // Shadow below the tile
             ),
           ],
         ),
@@ -31,7 +31,7 @@ class ExerciseTile extends StatelessWidget {
             Row(
               children: [
                 // Adding an icon on the left side of the exercise name
-                Icon(
+                const Icon(
                   CupertinoIcons.flame_fill, // Example icon, can be replaced
                   color: CupertinoColors.white,
                 ),

@@ -62,13 +62,13 @@ class StatisticsPage extends StatelessWidget {
                     title: 'Total Workouts',
                     value: '$totalWorkouts',
                     icon: CupertinoIcons.flame_fill,
-                    color: CupertinoColors.systemPink,
+                    color: CupertinoTheme.of(context).primaryColor,
                   ),
                   _buildSummaryTile(
                     title: 'Total Time Spent',
                     value: totalTimeSpent,
                     icon: CupertinoIcons.timer_fill,
-                    color: CupertinoColors.systemPink,
+                    color: CupertinoTheme.of(context).primaryColor,
                   ),
                   const SizedBox(height: 20),
 

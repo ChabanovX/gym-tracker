@@ -22,7 +22,7 @@ class AddExerciseSurfaceBottom extends StatelessWidget {
               stopwatch: stopwatch,
             ),
           ),
-        ), // Bottom-left area
+        ),
         Expanded(
           child: Center(
             child: CupertinoButton(
@@ -38,7 +38,7 @@ class AddExerciseSurfaceBottom extends StatelessWidget {
               },
             ),
           ),
-        ), // Bottom-right area with button in the center
+        ),
       ],
     );
   }
