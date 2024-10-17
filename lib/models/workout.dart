@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
 
+import 'workout_exercise.dart';
+
 part 'workout.g.dart';
 
 @HiveType(typeId: 0)
@@ -14,7 +16,7 @@ class Workout {
   final DateTime date;
 
   @HiveField(3)
-  final List<int> exerciseIds;
+  final List<WorkoutExercise> exercises;
 
   @HiveField(4)
   final Duration duration;
@@ -23,7 +25,7 @@ class Workout {
     required this.id,
     required this.name,
     required this.date,
-    required this.exerciseIds,
+    required this.exercises,
     required this.duration,
   });
 }
