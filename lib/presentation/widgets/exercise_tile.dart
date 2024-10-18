@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+
 import 'package:gymgym/models/exercise_set.dart';
 import 'package:gymgym/models/workout_exercise.dart';
 
@@ -39,7 +40,6 @@ class _ExerciseTileState extends State<ExerciseTile> {
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              // color: CupertinoTheme.of(context).primaryColor,
               color: (widget.exercise.sets == null ||
                       widget.exercise.sets!.isEmpty)
                   ? CupertinoColors.inactiveGray
@@ -86,51 +86,64 @@ class _ExerciseTileState extends State<ExerciseTile> {
             ),
           ),
 
-          // Dropdown section for inputting sets, reps, and weight
-          if (_isExpanded)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CupertinoTextField(
-                          controller: _repsController,
-                          placeholder: 'Reps',
-                          keyboardType: TextInputType.number,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: CupertinoTextField(
-                          controller: _weightController,
-                          placeholder: 'Weight (kg)',
-                          keyboardType: TextInputType.number,
-                        ),
-                      ),
-                      CupertinoButton(
-                        child: const Text('Add Set'),
-                        onPressed: () {
-                          int reps = int.tryParse(_repsController.text) ?? 0;
-                          double weight =
-                              double.tryParse(_weightController.text) ?? 0.0;
-                          if (reps > 0 && weight > 0) {
-                            setState(() {
-                              widget.exercise.setSets(
-                                  [ExerciseSet(reps: reps, weight: weight)]);
-                            });
-                            print(
-                              "Added sets for ${widget.exercise.exerciseName}: $weight kg x $reps reps",
-                            );
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ],
+          // Animated dropdown section for inputting sets, reps, and weight
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200), // Animation duration
+            curve: Curves.easeInSine, // Animation curve
+            height: _isExpanded ? 75 : 0, // Toggle height based on _isExpanded
+            child: SingleChildScrollView(
+              // Add scroll functionality
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: _isExpanded
+                    ? Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: CupertinoTextField(
+                                  controller: _repsController,
+                                  placeholder: 'Reps',
+                                  keyboardType: TextInputType.number,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: CupertinoTextField(
+                                  controller: _weightController,
+                                  placeholder: 'Weight (kg)',
+                                  keyboardType: TextInputType.number,
+                                ),
+                              ),
+                              CupertinoButton(
+                                child: const Text('Add Set'),
+                                onPressed: () {
+                                  int reps =
+                                      int.tryParse(_repsController.text) ?? 0;
+                                  double weight =
+                                      double.tryParse(_weightController.text) ??
+                                          0.0;
+                                  if (reps > 0 && weight > 0) {
+                                    setState(() {
+                                      widget.exercise.setSets([
+                                        ExerciseSet(reps: reps, weight: weight)
+                                      ]);
+                                    });
+                                    print(
+                                      "Added sets for ${widget.exercise.exerciseName}: $weight kg x $reps reps",
+                                    );
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : null, // If not expanded, don't show the content
               ),
             ),
+          ),
         ],
       ),
     );
