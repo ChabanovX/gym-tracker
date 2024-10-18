@@ -8,7 +8,7 @@ class ExerciseSet {
   final int reps;
 
   @HiveField(1)
-  final int weight;
+  final double weight;
 
   ExerciseSet({
     required this.reps,

@@ -18,7 +18,7 @@ class ExerciseSetAdapter extends TypeAdapter<ExerciseSet> {
     };
     return ExerciseSet(
       reps: fields[0] as int,
-      weight: fields[1] as int,
+      weight: fields[1] as double,
     );
   }
 
