@@ -9,7 +9,7 @@ class WorkoutExercise {
   final String exerciseName;
 
   @HiveField(1)
-  late final List<ExerciseSet>? sets;
+  late List<ExerciseSet>? sets;
 
   WorkoutExercise({
     required this.exerciseName,

@@ -259,8 +259,7 @@ class _buildExerciseListSection extends StatelessWidget {
           itemCount: _exercises.length,
           itemBuilder: (context, index) {
             return ExerciseTile(
-              title: _exercises[index].exerciseName,
-              onTap: () {},
+              exercise: _exercises[index],
             );
           },
         ),

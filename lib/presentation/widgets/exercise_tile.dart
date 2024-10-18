@@ -1,15 +1,26 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gymgym/models/exercise_set.dart';
+import 'package:gymgym/models/workout_exercise.dart';
 
 class ExerciseTile extends StatelessWidget {
-  final String title;
-  final VoidCallback onTap;
+  final WorkoutExercise exercise;
 
-  const ExerciseTile({super.key, required this.title, required this.onTap});
+  const ExerciseTile({super.key, required this.exercise});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        exercise.setSets([
+          ExerciseSet(
+            reps: 1,
+            weight: 1,
+          )
+        ]);
+        print(
+          "Added sets for ${exercise.exerciseName}: ${exercise.sets![0].weight}kg x ${exercise.sets![0].reps} reps",
+        );
+      },
       child: Container(
         height: 70,
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -21,7 +32,7 @@ class ExerciseTile extends StatelessWidget {
             BoxShadow(
               color: CupertinoColors.black.withOpacity(0.2),
               blurRadius: 6,
-              offset: const Offset(0, 5), // Shadow below the tile
+              offset: const Offset(0, 5),
             ),
           ],
         ),
@@ -30,19 +41,19 @@ class ExerciseTile extends StatelessWidget {
           children: [
             Row(
               children: [
-                // Adding an icon on the left side of the exercise name
                 const Icon(
-                  CupertinoIcons.flame_fill, // Example icon, can be replaced
+                  CupertinoIcons.flame_fill,
                   color: CupertinoColors.white,
                 ),
-                const SizedBox(width: 12), // Space between icon and text
+                const SizedBox(width: 12),
                 Text(
-                  title,
-                  style: CupertinoTheme.of(context).textTheme.textStyle.copyWith(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: CupertinoColors.white,
-                      ),
+                  exercise.exerciseName,
+                  style:
+                      CupertinoTheme.of(context).textTheme.textStyle.copyWith(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: CupertinoColors.white,
+                          ),
                 ),
               ],
             ),
