@@ -19,4 +19,9 @@ class WorkoutExercise {
   void setSets(List<ExerciseSet> sets) {
     this.sets = sets;
   }
+
+  void addSet(ExerciseSet set) {
+    sets ??= [];
+    sets!.add(set);
+  }
 }
