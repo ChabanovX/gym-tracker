@@ -6,13 +6,17 @@ part 'workout_exercise.g.dart';
 @HiveType(typeId: 2)
 class WorkoutExercise {
   @HiveField(0)
-  final int exerciseId;
+  final String exerciseName;
 
   @HiveField(1)
-  final List<ExerciseSet> sets;
+  late final List<ExerciseSet>? sets;
 
   WorkoutExercise({
-    required this.exerciseId,
-    required this.sets,
+    required this.exerciseName,
+    this.sets,
   });
+
+  void setSets(List<ExerciseSet> sets) {
+    this.sets = sets;
+  }
 }

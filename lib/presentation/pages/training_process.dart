@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gymgym/models/workout_exercise.dart';
 import 'package:uuid/uuid.dart';
 
 import '../widgets/add_exercise_surface_bottom.dart';
@@ -23,7 +24,7 @@ class TrainingProcess extends StatefulWidget {
 }
 
 class _TrainingProcessState extends State<TrainingProcess> {
-  final List<Exercise> _exercises = [];
+  final List<WorkoutExercise> _exercises = [];
   late Timer _timer;
   final Stopwatch _stopwatch = Stopwatch();
 
@@ -49,7 +50,11 @@ class _TrainingProcessState extends State<TrainingProcess> {
   // Function to add exercise to the list
   void _addExercise(Exercise exercise) {
     setState(() {
-      _exercises.add(exercise);
+      _exercises.add(
+        WorkoutExercise(
+          exerciseName: exercise.name,
+        )
+      );
     });
   }
 
@@ -63,7 +68,7 @@ class _TrainingProcessState extends State<TrainingProcess> {
         id: workoutId,
         name: workoutName,
         date: DateTime.now(),
-        exerciseIds: _exercises.map((exercise) => exercise.id).toList(),
+        exercises: [], // TODO
         duration: _stopwatch.elapsed);
 
     context.read<WorkoutBloc>().add(AddWorkoutEvent(newWorkout));
@@ -77,11 +82,13 @@ class _TrainingProcessState extends State<TrainingProcess> {
         content: 'Please add at least one exercise to save the workout.',
         barrierDismissible: true,
       );
+      // TODO: if not all sets are filled -> trigger
       return;
     }
 
     // Show confirmation dialog before saving
     showCupertinoDialog(
+      barrierDismissible: true,
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
@@ -175,7 +182,7 @@ class _TrainingProcessState extends State<TrainingProcess> {
             child: SafeArea(
               child: Column(
                 children: [
-                  _buildTitleSection(exercises: _exercises),
+                  _buildTitleSection(hasExercises: _exercises.isNotEmpty),
                   Flexible(
                     flex: 4,
                     child: _buildExerciseListSection(exercises: _exercises),
@@ -218,11 +225,10 @@ class _TrainingProcessState extends State<TrainingProcess> {
 // **
 class _buildTitleSection extends StatelessWidget {
   const _buildTitleSection({
-    super.key,
-    required List<Exercise> exercises,
-  }) : _exercises = exercises;
+    required bool hasExercises,
+  }) : _hasExercises = hasExercises;
 
-  final List<Exercise> _exercises;
+  final bool _hasExercises;
 
   @override
   Widget build(BuildContext context) {
@@ -230,7 +236,7 @@ class _buildTitleSection extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(16, 24, 16, 16),
       alignment: Alignment.centerLeft,
       child: Text(
-        _exercises.isEmpty ? "No exercises" : "Your exercises",
+        _hasExercises ? "Your exercises" : "No exercises",
         style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
       ),
     );
@@ -239,11 +245,10 @@ class _buildTitleSection extends StatelessWidget {
 
 class _buildExerciseListSection extends StatelessWidget {
   const _buildExerciseListSection({
-    super.key,
-    required List<Exercise> exercises,
+    required List<WorkoutExercise> exercises,
   }) : _exercises = exercises;
 
-  final List<Exercise> _exercises;
+  final List<WorkoutExercise> _exercises;
 
   @override
   Widget build(BuildContext context) {
@@ -254,7 +259,7 @@ class _buildExerciseListSection extends StatelessWidget {
           itemCount: _exercises.length,
           itemBuilder: (context, index) {
             return ExerciseTile(
-              title: _exercises[index].name,
+              title: _exercises[index].exerciseName,
               onTap: () {},
             );
           },

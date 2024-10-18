@@ -5,12 +5,16 @@ import '../services/exercise_service.dart';
 
 final getIt = GetIt.instance;
 
-void setUpDependencies() {
+Future<void> setUpDependencies() async {
   // Register Repositories
   getIt.registerLazySingleton<WorkoutRepository>(() => WorkoutRepository());
 
   // Register Services
-  getIt.registerLazySingleton<ExerciseService>(() => ExerciseService());
+  getIt.registerSingletonAsync<ExerciseService>(() async {
+    final service = ExerciseService();
+    await service.getExercises();
+    return service;
+  });
 
   // Register Blocs
   getIt.registerFactory<WorkoutBloc>(

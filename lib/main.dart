@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gymgym/models/duration_adapter.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'models/duration_adapter.dart';
+import 'models/workout.dart';
+import 'models/workout_exercise.dart';
+import 'models/exercise_set.dart';
 import 'blocs/workout_bloc/workout_bloc.dart';
 import 'blocs/workout_bloc/workout_event.dart';
 import 'services/dependency_injection.dart';
-import 'models/workout.dart';
-
 import 'presentation/pages/stats_page.dart';
 import 'presentation/pages/start_train_page.dart';
 
@@ -20,13 +22,15 @@ void main() async {
 
   // Register Hive adapters
   Hive.registerAdapter(WorkoutAdapter());
+  Hive.registerAdapter(WorkoutExerciseAdapter());
+  Hive.registerAdapter(ExerciseSetAdapter());
   Hive.registerAdapter(DurationAdapter());
 
   // Open Hive boxes
   await Hive.openBox<Workout>('workouts');
 
   // Set up dependencies injection
-  setUpDependencies();
+  await setUpDependencies();
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
