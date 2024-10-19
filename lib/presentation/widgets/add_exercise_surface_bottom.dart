@@ -1,9 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 
 import 'stopwatch.dart';
-import '../../style/style.dart';
 
 class AddExerciseSurfaceBottom extends StatelessWidget {
   final Widget popUpSurface;

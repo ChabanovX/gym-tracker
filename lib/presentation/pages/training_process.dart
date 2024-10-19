@@ -219,6 +219,7 @@ class _TrainingProcessState extends State<TrainingProcess> {
 
   Widget _buildSliverNavigationBar({required bool hasExercises}) {
     return CupertinoSliverNavigationBar(
+      stretch: true,
       border: null,
       backgroundColor: CupertinoColors.white,
       largeTitle: Text(
