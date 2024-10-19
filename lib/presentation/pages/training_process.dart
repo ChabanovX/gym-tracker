@@ -186,7 +186,7 @@ class _TrainingProcessState extends State<TrainingProcess> {
                       _buildSliverExerciseListSection(exercises: _exercises),
                     ],
                   ),
-                ),
+                ), // DELETE
                 Expanded(
                   flex: 1,
                   child: AddExerciseSurfaceBottom(
