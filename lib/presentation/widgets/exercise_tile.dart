@@ -15,6 +15,7 @@ class ExerciseTile extends StatefulWidget {
 class _ExerciseTileState extends State<ExerciseTile>
     with SingleTickerProviderStateMixin {
   bool _isExpanded = false;
+  // TODO: Fix those guys on iPhone
   final TextEditingController _repsController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
 
