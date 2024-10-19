@@ -1,4 +1,4 @@
-import '../../models/workout.dart';
+import '../../models/workout_model/workout.dart';
 
 abstract class WorkoutState {}
 

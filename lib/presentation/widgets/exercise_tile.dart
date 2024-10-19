@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gymgym/models/exercise_set.dart';
-import 'package:gymgym/models/workout_exercise.dart';
+import 'package:gymgym/models/exercise_set_model/exercise_set.dart';
+import 'package:gymgym/models/advanced_exercise_model/workout_exercise.dart';
 
 class ExerciseTile extends StatefulWidget {
   final WorkoutExercise exercise;

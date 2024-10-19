@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/exercise.dart';
+import '../../models/basic_exercise_model/exercise.dart';
 import '../../services/exercise_service.dart';
 import '../../services/dependency_injection.dart';
 

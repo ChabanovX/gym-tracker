@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import '../models/exercise.dart';
+import '../models/basic_exercise_model/exercise.dart';
 
 class ExerciseService {
   List<Exercise>? _exercises;

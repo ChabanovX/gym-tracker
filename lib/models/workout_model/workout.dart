@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-import 'workout_exercise.dart';
+import '../advanced_exercise_model/workout_exercise.dart';
 
 part 'workout.g.dart';
 

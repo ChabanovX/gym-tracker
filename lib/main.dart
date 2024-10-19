@@ -4,10 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'models/duration_adapter.dart';
-import 'models/workout.dart';
-import 'models/workout_exercise.dart';
-import 'models/exercise_set.dart';
+import 'models/adapter_models/duration_adapter.dart';
+import 'models/workout_model/workout.dart';
+import 'models/advanced_exercise_model/workout_exercise.dart';
+import 'models/exercise_set_model/exercise_set.dart';
 import 'blocs/workout_bloc/workout_bloc.dart';
 import 'blocs/workout_bloc/workout_event.dart';
 import 'services/dependency_injection.dart';

@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import '../models/workout.dart';
+import '../models/workout_model/workout.dart';
 
 class WorkoutRepository {
   final Box<Workout> _workoutBox = Hive.box<Workout>('workouts');

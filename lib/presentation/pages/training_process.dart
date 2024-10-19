@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gymgym/models/workout_exercise.dart';
+import 'package:gymgym/models/advanced_exercise_model/workout_exercise.dart';
 import 'package:uuid/uuid.dart';
 
 import '../widgets/add_exercise_surface_bottom.dart';
 import '../widgets/add_exercise_surface_popup.dart';
 import '../widgets/exercise_tile.dart';
-import '../../models/exercise.dart';
-import '../../models/workout.dart';
+import '../../models/basic_exercise_model/exercise.dart';
+import '../../models/workout_model/workout.dart';
 import '../../blocs/workout_bloc/workout_bloc.dart';
 import '../../blocs/workout_bloc/workout_event.dart';
 import '../../blocs/workout_bloc/workout_state.dart';

@@ -26,7 +26,7 @@ class TrainPage extends StatelessWidget {
                     ),
                   )
                 },
-                color: CupertinoColors.systemPink,
+                color: CupertinoTheme.of(context).primaryColor,
                 borderRadius: BorderRadius.circular(20),
                 child: const Text(
                   "Start Training",
