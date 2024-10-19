@@ -13,4 +13,17 @@ abstract class BackgroundStyles {
       ),
     );
   }
+
+  static BoxDecoration gradientDecorationReversed(BuildContext context) {
+    return BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          CupertinoColors.lightBackgroundGray,
+          CupertinoTheme.of(context).primaryContrastingColor
+        ],
+      ),
+    );
+  }
 }

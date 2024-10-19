@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+
 import 'stopwatch.dart';
+import '../../style/style.dart';
 
 
 class AddExerciseSurfaceBottom extends StatelessWidget {
@@ -14,32 +16,36 @@ class AddExerciseSurfaceBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Center(
-            child: StopwatchWidget(
-              stopwatch: stopwatch,
-            ),
-          ),
-        ),
-        Expanded(
-          child: Center(
-            child: CupertinoButton(
-              child: const Icon(
-                CupertinoIcons.add_circled,
-                size: 64,
+    return Container(
+      decoration: BackgroundStyles.gradientDecorationReversed(context),
+      // color: CupertinoColors.inactiveGray,
+      child: Row(
+        children: [
+          Expanded(
+            child: Center(
+              child: StopwatchWidget(
+                stopwatch: stopwatch,
               ),
-              onPressed: () {
-                showCupertinoModalPopup(
-                  context: context,
-                  builder: (BuildContext context) => popUpSurface,
-                );
-              },
             ),
           ),
-        ),
-      ],
+          Expanded(
+            child: Center(
+              child: CupertinoButton(
+                child: const Icon(
+                  CupertinoIcons.add_circled,
+                  size: 64,
+                ),
+                onPressed: () {
+                  showCupertinoModalPopup(
+                    context: context,
+                    builder: (BuildContext context) => popUpSurface,
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

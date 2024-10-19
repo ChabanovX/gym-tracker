@@ -171,18 +171,33 @@ class _TrainingProcessState extends State<TrainingProcess> {
           }
         },
         child: CupertinoPageScaffold(
-          child: CustomScrollView(
-            physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics(),
+          child: SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 6,
+                  child: CustomScrollView(
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
+                    slivers: [
+                      _buildSliverNavigationBar(
+                          hasExercises: _exercises.isNotEmpty),
+                      _buildSliverExerciseListSection(exercises: _exercises),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: AddExerciseSurfaceBottom(
+                    stopwatch: _stopwatch,
+                    popUpSurface: AddExercisePopup(
+                      onExerciseSelected: _addExercise,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            slivers: [
-              _buildSliverNavigationBar(hasExercises: _exercises.isNotEmpty),
-              _buildSliverExerciseListSection(exercises: _exercises),
-              _buildSliverAddExerciseSection(
-                stopWatch: _stopwatch,
-                addExercise: _addExercise,
-              ),
-            ],
           ),
         ),
       ),
@@ -194,8 +209,7 @@ class _TrainingProcessState extends State<TrainingProcess> {
       border: null,
       backgroundColor: CupertinoColors.white,
       largeTitle: Text(
-        hasExercises ?
-        'Your Exercises' : 'No exercises',
+        hasExercises ? 'Your Exercises' : 'No exercises',
       ),
       trailing: CupertinoButton(
         padding: EdgeInsets.zero,
@@ -217,20 +231,6 @@ class _TrainingProcessState extends State<TrainingProcess> {
           );
         },
         childCount: exercises.length,
-      ),
-    );
-  }
-
-  Widget _buildSliverAddExerciseSection({
-    required addExercise,
-    required stopWatch,
-  }) {
-    return SliverToBoxAdapter(
-      child: AddExerciseSurfaceBottom(
-        stopwatch: stopWatch,
-        popUpSurface: AddExercisePopup(
-          onExerciseSelected: addExercise,
-        ),
       ),
     );
   }
