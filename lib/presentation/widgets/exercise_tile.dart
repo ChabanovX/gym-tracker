@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gymgym/models/exercise_set_model/exercise_set.dart';
-import 'package:gymgym/models/advanced_exercise_model/workout_exercise.dart';
+
+import '../../models/exercise_set_model/exercise_set.dart';
+import '../../models/advanced_exercise_model/workout_exercise.dart';
 
 class ExerciseTile extends StatefulWidget {
   final WorkoutExercise exercise;
@@ -67,7 +68,7 @@ class _ExerciseTileState extends State<ExerciseTile>
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: CupertinoColors.systemGrey5,
+              color: CupertinoColors.systemGrey6,
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
@@ -166,7 +167,7 @@ class _ExerciseTileState extends State<ExerciseTile>
                                 ),
                                 CupertinoButton(
                                   padding: EdgeInsets.zero,
-                                  child: Icon(
+                                  child: const Icon(
                                     CupertinoIcons.delete,
                                     color: CupertinoColors.destructiveRed,
                                     size: 20,

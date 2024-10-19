@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gymgym/models/advanced_exercise_model/workout_exercise.dart';
+import "../../models/advanced_exercise_model/workout_exercise.dart";
 import 'package:uuid/uuid.dart';
 
 import '../widgets/add_exercise_surface_bottom.dart';
@@ -50,11 +50,9 @@ class _TrainingProcessState extends State<TrainingProcess> {
   // Function to add exercise to the list
   void _addExercise(Exercise exercise) {
     setState(() {
-      _exercises.add(
-        WorkoutExercise(
-          exerciseName: exercise.name,
-        )
-      );
+      _exercises.add(WorkoutExercise(
+        exerciseName: exercise.name,
+      ));
     });
   }
 
@@ -182,10 +180,10 @@ class _TrainingProcessState extends State<TrainingProcess> {
             child: SafeArea(
               child: Column(
                 children: [
-                  _buildTitleSection(hasExercises: _exercises.isNotEmpty),
+                  _buildTitleSection(hasExercises: _exercises.isNotEmpty, context: context),
                   Flexible(
                     flex: 4,
-                    child: _buildExerciseListSection(exercises: _exercises),
+                    child: _buildExerciseListSection(exercises: _exercises, context: context),
                   ),
                   Flexible(
                     flex: 1,
@@ -219,53 +217,34 @@ class _TrainingProcessState extends State<TrainingProcess> {
 }
 
 // **
-// SHIT CODE HAPPENS HERE
-// IT IS KINDA UNGROUPING THE WIDGETS
-// SHOULD BE ORGANISED BETTER
+// Some widgets that I do not want to implement in the inner class
 // **
-class _buildTitleSection extends StatelessWidget {
-  const _buildTitleSection({
-    required bool hasExercises,
-  }) : _hasExercises = hasExercises;
-
-  final bool _hasExercises;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(16, 24, 16, 16),
-      alignment: Alignment.centerLeft,
-      child: Text(
-        _hasExercises ? "Your exercises" : "No exercises",
-        style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
-      ),
-    );
-  }
+Widget _buildTitleSection(
+    {required bool hasExercises, required BuildContext context}) {
+  return Container(
+    margin: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+    alignment: Alignment.centerLeft,
+    child: Text(
+      hasExercises ? "Your exercises" : "No exercises",
+      style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
+    ),
+  );
 }
 
-class _buildExerciseListSection extends StatelessWidget {
-  const _buildExerciseListSection({
-    required List<WorkoutExercise> exercises,
-  }) : _exercises = exercises;
-
-  final List<WorkoutExercise> _exercises;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BackgroundStyles.gradientDecoration(context),
-      child: CupertinoScrollbar(
+Widget _buildExerciseListSection({required List<WorkoutExercise> exercises, required BuildContext context}) {
+  return Container(
+    decoration: BackgroundStyles.gradientDecoration(context),
+    child: CupertinoScrollbar(
         child: ListView.builder(
-          itemCount: _exercises.length,
+          itemCount: exercises.length,
           itemBuilder: (context, index) {
             return ExerciseTile(
-              exercise: _exercises[index],
+              exercise: exercises[index],
             );
           },
         ),
       ),
-    );
-  }
+  );
 }
 
 Widget _buildAddExerciseSection({
