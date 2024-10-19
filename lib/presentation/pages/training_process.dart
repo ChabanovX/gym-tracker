@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
 
@@ -135,6 +136,8 @@ class _TrainingProcessState extends State<TrainingProcess> {
 
   @override
   Widget build(BuildContext context) {
+    const double bottomWidgetHeight = 150.0;
+
     return BlocListener<WorkoutBloc, WorkoutState>(
       listener: (context, state) {
         if (state is WorkoutAddedState) {
@@ -172,27 +175,37 @@ class _TrainingProcessState extends State<TrainingProcess> {
         },
         child: CupertinoPageScaffold(
           child: SafeArea(
-            child: Column(
+            bottom: false,
+            child: Stack(
               children: [
-                Expanded(
-                  flex: 6,
-                  child: CustomScrollView(
-                    physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics(),
-                    ),
-                    slivers: [
-                      _buildSliverNavigationBar(
-                          hasExercises: _exercises.isNotEmpty),
-                      _buildSliverExerciseListSection(exercises: _exercises),
-                    ],
+                CustomScrollView(
+                  physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics(),
                   ),
-                ), // DELETE
-                Expanded(
-                  flex: 1,
-                  child: AddExerciseSurfaceBottom(
-                    stopwatch: _stopwatch,
-                    popUpSurface: AddExercisePopup(
-                      onExerciseSelected: _addExercise,
+                  slivers: [
+                    _buildSliverNavigationBar(
+                        hasExercises: _exercises.isNotEmpty),
+                    _buildSliverExerciseListSection(exercises: _exercises),
+                    const SliverPadding(padding: EdgeInsets.only(bottom: bottomWidgetHeight)),
+                  ],
+                ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: ClipRect(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
+                      child: Container(
+                        height: bottomWidgetHeight,
+                        color: CupertinoColors.white.withOpacity(0.2),
+                        child: AddExerciseSurfaceBottom(
+                          stopwatch: _stopwatch,
+                          popUpSurface: AddExercisePopup(
+                            onExerciseSelected: _addExercise,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
