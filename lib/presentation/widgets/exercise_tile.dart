@@ -191,6 +191,7 @@ class _ExerciseTileState extends State<ExerciseTile>
                     children: [
                       Expanded(
                         child: CupertinoTextField(
+                          onTapOutside: null,
                           controller: _repsController,
                           placeholder: 'Reps',
                           keyboardType: TextInputType.number,
@@ -199,6 +200,7 @@ class _ExerciseTileState extends State<ExerciseTile>
                       const SizedBox(width: 10),
                       Expanded(
                         child: CupertinoTextField(
+                          onTapOutside: null,
                           controller: _weightController,
                           placeholder: 'Weight (kg)',
                           keyboardType: TextInputType.number,

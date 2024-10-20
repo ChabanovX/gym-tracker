@@ -176,44 +176,66 @@ class _TrainingProcessState extends State<TrainingProcess> {
         child: CupertinoPageScaffold(
           child: SafeArea(
             bottom: false,
-            child: Stack(
-              children: [
-                CustomScrollView(
-                  physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics(),
-                  ),
-                  slivers: [
-                    _buildSliverNavigationBar(
-                        hasExercises: _exercises.isNotEmpty),
-                    _buildSliverExerciseListSection(exercises: _exercises),
-                    const SliverPadding(padding: EdgeInsets.only(bottom: bottomWidgetHeight)),
-                  ],
-                ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: ClipRect(
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
-                      child: Container(
-                        height: bottomWidgetHeight,
-                        color: CupertinoColors.white.withOpacity(0.2),
-                        child: AddExerciseSurfaceBottom(
-                          stopwatch: _stopwatch,
-                          popUpSurface: AddExercisePopup(
-                            onExerciseSelected: _addExercise,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+            child: _buildBlurringOverlay(
+              slivers: [
+                _buildSliverNavigationBar(hasExercises: _exercises.isNotEmpty),
+                _buildSliverExerciseListSection(exercises: _exercises),
               ],
+              unscrollableWidget: AddExerciseSurfaceBottom(
+                popUpSurface: AddExercisePopup(
+                  onExerciseSelected: _addExercise,
+                ),
+                stopwatch: _stopwatch,
+              ),
+              unscrollableWidgetHeight: bottomWidgetHeight,
             ),
           ),
         ),
       ),
+    );
+  }
+
+  // When scrollable items go below unscrollable widget, blurring effect is applied
+  Widget _buildBlurringOverlay({
+    required List<Widget> slivers,
+    required Widget unscrollableWidget,
+    required double unscrollableWidgetHeight,
+  }) {
+    
+    // Takes slivers and compensates for the height of unscrollable widget
+    CustomScrollView customScrollView = CustomScrollView(
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
+      slivers: slivers +
+          [
+            SliverPadding(
+              padding: EdgeInsets.only(
+                bottom: unscrollableWidgetHeight,
+              ),
+            ),
+          ],
+    );
+
+    return Stack(
+      children: [
+        customScrollView,
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
+              child: Container(
+                height: unscrollableWidgetHeight,
+                color: CupertinoColors.white.withOpacity(0.2),
+                child: unscrollableWidget,
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 
