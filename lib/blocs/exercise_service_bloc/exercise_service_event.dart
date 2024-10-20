@@ -1,23 +1,23 @@
-import '/models/basic_exercise_model/exercise.dart';
 
 abstract class ExerciseServiceEvent {}
 
-class GetExercisesEvent extends ExerciseServiceEvent {}
+class GetExercisesEvent extends ExerciseServiceEvent {
+  final ExerciseFetchType fetchType;
+  final int? id;
+  final List<int>? ids;
+  final String? category;
 
-class GetExerciseByIdEvent extends ExerciseServiceEvent {
-  final int id;
-
-  GetExerciseByIdEvent(this.id);
+  GetExercisesEvent({
+    required this.fetchType,
+    this.id,
+    this.ids,
+    this.category,
+  });
 }
 
-class GetExercisesByIdsEvent extends ExerciseServiceEvent {
-  final List<int> ids;
-
-  GetExercisesByIdsEvent(this.ids);
-}
-
-class GetExercisesByCategoryEvent extends ExerciseServiceEvent {
-  final String category;
-
-  GetExercisesByCategoryEvent(this.category);
+enum ExerciseFetchType {
+  all,
+  id,
+  ids,
+  category,
 }

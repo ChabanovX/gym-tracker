@@ -1,7 +1,8 @@
 import 'package:get_it/get_it.dart';
-import '../blocs/workout_bloc/workout_bloc.dart';
-import '../repositories/workout_repository.dart';
-import '../services/exercise_service.dart';
+
+import '/blocs/workout_bloc/workout_bloc.dart';
+import '/blocs/exercise_service_bloc/exercise_service_bloc.dart';
+import '/repositories/workout_repository.dart';
 
 final getIt = GetIt.instance;
 
@@ -10,9 +11,9 @@ Future<void> setUpDependencies() async {
   getIt.registerLazySingleton<WorkoutRepository>(() => WorkoutRepository());
 
   // Register Services
-  getIt.registerSingletonAsync<ExerciseService>(() async {
-    final service = ExerciseService();
-    await service.getExercises();
+  getIt.registerSingletonAsync<ExerciseServiceBloc>(() async {
+    final service = ExerciseServiceBloc();
+    await service.loadExercises();
     return service;
   });
 
