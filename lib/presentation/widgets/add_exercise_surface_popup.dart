@@ -68,7 +68,6 @@ class _AddExercisePopupState extends State<AddExercisePopup> {
 
   Widget _buildSearchField() {
     return Padding(
-      // padding: const EdgeInsets.all(8.0),
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
       child: CupertinoSearchTextField(
         placeholder: 'Search exercises...',

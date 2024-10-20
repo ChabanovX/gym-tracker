@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../repositories/workout_repository.dart';
+
+import '/repositories/workout_repository.dart';
 import 'workout_event.dart';
 import 'workout_state.dart';
 
@@ -15,7 +16,9 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }
 
   void _onLoadWorkouts(
-      LoadWorkoutsEvent event, Emitter<WorkoutState> emit) async {
+    LoadWorkoutsEvent event,
+    Emitter<WorkoutState> emit,
+  ) async {
     emit(WorkoutLoadingState());
     try {
       final workouts = workoutRepository.getAllWorkouts();
@@ -25,7 +28,10 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     }
   }
 
-  void _onAddWorkout(AddWorkoutEvent event, Emitter<WorkoutState> emit) async {
+  void _onAddWorkout(
+    AddWorkoutEvent event,
+    Emitter<WorkoutState> emit,
+  ) async {
     try {
       await workoutRepository.addWorkout(event.workout);
       emit(WorkoutAddedState(event.workout));
@@ -36,7 +42,9 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }
 
   void _onUpdateWorkout(
-      UpdateWorkoutEvent event, Emitter<WorkoutState> emit) async {
+    UpdateWorkoutEvent event,
+    Emitter<WorkoutState> emit,
+  ) async {
     try {
       workoutRepository.updateWorkout(event.workout);
       add(LoadWorkoutsEvent());
@@ -46,7 +54,9 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }
 
   void _onDeleteWorkout(
-      DeleteWorkoutEvent event, Emitter<WorkoutState> emit) async {
+    DeleteWorkoutEvent event,
+    Emitter<WorkoutState> emit,
+  ) async {
     try {
       workoutRepository.deleteWorkout(event.workout);
       add(LoadWorkoutsEvent());

@@ -23,4 +23,3 @@ class WorkoutErrorState extends WorkoutState {
 
   WorkoutErrorState(this.message);
 }
-

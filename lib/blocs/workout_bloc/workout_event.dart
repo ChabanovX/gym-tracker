@@ -1,4 +1,4 @@
-import '../../models/workout_model/workout.dart';
+import '/models/workout_model/workout.dart';
 
 abstract class WorkoutEvent {}
 
@@ -18,5 +18,3 @@ class DeleteWorkoutEvent extends WorkoutEvent {
   final Workout workout;
   DeleteWorkoutEvent(this.workout);
 }
-
-

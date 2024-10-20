@@ -10,31 +10,51 @@ class TrainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       child: Container(
-        decoration: BackgroundStyles.gradientDecoration(context),
+        // decoration: BackgroundStyles.gradientDecoration(context),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
-              child: CupertinoButton(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                onPressed: () => {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => const TrainingProcess(),
-                    ),
-                  )
-                },
-                color: CupertinoTheme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(20),
-                child: const Text(
-                  "Start Training",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+            const Expanded(
+              child: Row(
+                children: [],
+              ),
+            ),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(),
                   ),
-                ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () => {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => const TrainingProcess(),
+                              ),
+                            )
+                          },
+                          child: const Icon(
+                            size: 100,
+                            CupertinoIcons.flame_fill,
+                          ),
+                        ),
+                        // const SizedBox(height: 5),
+                        // Text(
+                        //   "start training",
+                        //   style: CupertinoTheme.of(context)
+                        //       .textTheme
+                        //       .tabLabelTextStyle.copyWith(
+                        //         fontSize: 15,
+                        //       ),
+                        // ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
