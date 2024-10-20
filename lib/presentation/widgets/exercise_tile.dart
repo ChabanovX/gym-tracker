@@ -57,10 +57,17 @@ class _ExerciseTileState extends State<ExerciseTile>
     });
   }
 
+  void _dismissKeyboard() {
+    FocusScope.of(context).unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _toggleExpanded,
+      onTap: () {
+        _toggleExpanded();
+        _dismissKeyboard();
+      },
       child: Column(
         children: [
           // The main tile

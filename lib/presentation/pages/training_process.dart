@@ -174,20 +174,27 @@ class _TrainingProcessState extends State<TrainingProcess> {
           }
         },
         child: CupertinoPageScaffold(
+          resizeToAvoidBottomInset: false, // Forbig keyboard shifting widgets
           child: SafeArea(
             bottom: false,
-            child: _buildBlurringOverlay(
-              slivers: [
-                _buildSliverNavigationBar(hasExercises: _exercises.isNotEmpty),
-                _buildSliverExerciseListSection(exercises: _exercises),
-              ],
-              unscrollableWidget: AddExerciseSurfaceBottom(
-                popUpSurface: AddExercisePopup(
-                  onExerciseSelected: _addExercise,
+            child: GestureDetector(
+              // Dismiss keyboard when tapping outside
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              child: _buildBlurringOverlay(
+                slivers: [
+                  _buildSliverNavigationBar(hasExercises: _exercises.isNotEmpty),
+                  _buildSliverExerciseListSection(exercises: _exercises),
+                ],
+                unscrollableWidget: AddExerciseSurfaceBottom(
+                  popUpSurface: AddExercisePopup(
+                    onExerciseSelected: _addExercise,
+                  ),
+                  stopwatch: _stopwatch,
                 ),
-                stopwatch: _stopwatch,
+                unscrollableWidgetHeight: bottomWidgetHeight,
               ),
-              unscrollableWidgetHeight: bottomWidgetHeight,
             ),
           ),
         ),
@@ -201,7 +208,6 @@ class _TrainingProcessState extends State<TrainingProcess> {
     required Widget unscrollableWidget,
     required double unscrollableWidgetHeight,
   }) {
-    
     // Takes slivers and compensates for the height of unscrollable widget
     CustomScrollView customScrollView = CustomScrollView(
       physics: const BouncingScrollPhysics(
