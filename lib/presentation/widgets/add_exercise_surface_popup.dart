@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_me/blocs/workout_bloc/workout_bloc.dart';
 
-import '../../models/basic_exercise_model/exercise.dart';
-import '../../services/exercise_service.dart';
-import '../../services/dependency_injection.dart';
+import '/models/basic_exercise_model/exercise.dart';
+import '/services/dependency_injection.dart';
+import '/blocs/exercise_service_bloc/exercise_service_bloc.dart';
 
 class AddExercisePopup extends StatefulWidget {
   // Add a callback to return the selected exercise
@@ -16,7 +17,7 @@ class AddExercisePopup extends StatefulWidget {
 }
 
 class _AddExercisePopupState extends State<AddExercisePopup> {
-  late ExerciseService _exerciseService;
+  late ExerciseServiceBloc _exerciseService;
 
   List<Exercise> _exercises = [];
   List<Exercise> _filteredExercises = [];
@@ -28,7 +29,8 @@ class _AddExercisePopupState extends State<AddExercisePopup> {
   @override
   void initState() {
     super.initState();
-    _exerciseService = getIt<ExerciseService>();
+    _exerciseService = getIt<ExerciseServiceBloc>();
+
     _loadExercises();
   }
 

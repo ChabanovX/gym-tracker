@@ -10,6 +10,7 @@ import 'models/advanced_exercise_model/workout_exercise.dart';
 import 'models/exercise_set_model/exercise_set.dart';
 import 'blocs/workout_bloc/workout_bloc.dart';
 import 'blocs/workout_bloc/workout_event.dart';
+import 'blocs/exercise_service_bloc/exercise_service_bloc.dart';
 import 'services/dependency_injection.dart';
 import 'presentation/pages/stats_page.dart';
 import 'presentation/pages/start_train_page.dart';
@@ -44,8 +45,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<WorkoutBloc>()..add(LoadWorkoutsEvent()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => getIt<WorkoutBloc>()..add(LoadWorkoutsEvent()),
+        ),
+        BlocProvider(
+          create: (_) => getIt<ExerciseServiceBloc>(),
+        ),
+      ],
       child: const CupertinoApp(
         debugShowCheckedModeBanner: false,
         theme: CupertinoThemeData(
