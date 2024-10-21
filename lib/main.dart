@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gym_me/blocs/exercise_service_bloc/exercise_service_event.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'models/adapter_models/duration_adapter.dart';
@@ -51,7 +52,7 @@ class MainApp extends StatelessWidget {
           create: (_) => getIt<WorkoutBloc>()..add(LoadWorkoutsEvent()),
         ),
         BlocProvider(
-          create: (_) => getIt<ExerciseServiceBloc>(),
+          create: (_) => getIt<ExerciseServiceBloc>()..add(GetExercisesEvent(fetchType: ExerciseFetchType.all)),
         ),
       ],
       child: const CupertinoApp(
