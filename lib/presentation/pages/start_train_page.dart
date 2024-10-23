@@ -35,20 +35,25 @@ class TrainPage extends StatelessWidget {
                               ),
                             )
                           },
-                          child: const Icon(
-                            size: 100,
-                            CupertinoIcons.flame_fill,
+                          child: Column(
+                            children: [
+                              const Icon(
+                                size: 100,
+                                CupertinoIcons.flame_fill,
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                "START",
+                                style: CupertinoTheme.of(context)
+                                    .textTheme
+                                    .navLargeTitleTextStyle
+                                    .copyWith(
+                                      fontSize: 15,
+                                    ),
+                              ),
+                            ],
                           ),
                         ),
-                        // const SizedBox(height: 5),
-                        // Text(
-                        //   "start training",
-                        //   style: CupertinoTheme.of(context)
-                        //       .textTheme
-                        //       .tabLabelTextStyle.copyWith(
-                        //         fontSize: 15,
-                        //       ),
-                        // ),
                       ],
                     ),
                   ),
