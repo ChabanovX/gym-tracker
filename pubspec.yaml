@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  hive: ^2.2.3
+  hive:
   hive_flutter: ^1.1.0
   get_it: ^7.6.0
   flutter_bloc: ^8.1.3

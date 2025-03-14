@@ -174,7 +174,7 @@ class _TrainingProcessState extends State<TrainingProcess> {
           }
         },
         child: CupertinoPageScaffold(
-          resizeToAvoidBottomInset: false, // Forbig keyboard shifting widgets
+          resizeToAvoidBottomInset: false, // Forbid keyboard shifting widgets
           child: SafeArea(
             bottom: false,
             child: GestureDetector(

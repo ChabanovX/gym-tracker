@@ -19,19 +19,15 @@ import 'presentation/pages/start_train_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Hive
   await Hive.initFlutter();
 
-  // Register Hive adapters
   Hive.registerAdapter(WorkoutAdapter());
   Hive.registerAdapter(WorkoutExerciseAdapter());
   Hive.registerAdapter(ExerciseSetAdapter());
   Hive.registerAdapter(DurationAdapter());
 
-  // Open Hive boxes
   await Hive.openBox<Workout>('workouts');
 
-  // Set up dependencies injection
   await setUpDependencies();
 
   SystemChrome.setPreferredOrientations([
@@ -58,7 +54,7 @@ class MainApp extends StatelessWidget {
       child: const CupertinoApp(
         debugShowCheckedModeBanner: false,
         theme: CupertinoThemeData(
-          brightness: Brightness.light,
+          // brightness: Brightness.light,
           primaryColor: CupertinoColors.systemPink,
         ),
         home: RootPage(),

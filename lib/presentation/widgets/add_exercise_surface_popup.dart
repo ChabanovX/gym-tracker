@@ -24,17 +24,10 @@ class _AddExercisePopupState extends State<AddExercisePopup> {
   List<String> _selectedCategories = [];
   String _currentQuery = '';
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _exerciseServiceBloc = getIt<ExerciseServiceBloc>();
-  // }
-
   List<String> _extractCategories(List<Exercise> exercises) {
     return exercises.map((e) => e.category).toSet().toList();
   }
 
-  // Matches both query and category
   void _filterExercises(String query) {
     _currentQuery = query;
     setState(() {
@@ -113,7 +106,6 @@ class _AddExercisePopupState extends State<AddExercisePopup> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPopupSurface(
-      isSurfacePainted: true,
       child: SafeArea(
         top: false,
         child: SizedBox(
